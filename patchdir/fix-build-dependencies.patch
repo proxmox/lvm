@@ -1,0 +1,22 @@
+Index: lvm2new/debian/control
+===================================================================
+--- lvm2new.orig/debian/control	2011-09-20 09:30:56.000000000 +0200
++++ lvm2new/debian/control	2011-09-20 10:14:57.000000000 +0200
+@@ -3,7 +3,7 @@
+ Priority: optional
+ Maintainer: Debian LVM Team <pkg-lvm-maintainers@lists.alioth.debian.org>
+ Uploaders: Bastian Blank <waldi@debian.org>
+-Build-Depends: debhelper (>> 7), automake, libcman-dev (>> 2), libdlm-dev (>> 2), libreadline-gplv2-dev, libselinux1-dev, libudev-dev, pkg-config, quilt
++Build-Depends: debhelper (>> 7), automake, redhat-cluster-pve-dev, libreadline6-dev, libselinux1-dev, libudev-dev, pkg-config, quilt
+ Standards-Version: 3.9.1
+ Homepage: http://sources.redhat.com/lvm2/
+ Vcs-Svn: svn://svn.debian.org/pkg-lvm/lvm2/trunk/
+@@ -39,7 +39,7 @@
+ Package: clvm
+ Priority: extra
+ Architecture: any
+-Depends: ${shlibs:Depends}, ${misc:Depends}, lvm2 (= ${binary:Version}), lsb-base, cman
++Depends: ${shlibs:Depends}, ${misc:Depends}, lvm2 (= ${binary:Version}), lsb-base, redhat-cluster-pve
+ Description: Cluster LVM Daemon for lvm2
+  This package provides the clustering interface for lvm2, when used with 
+  Red Hat's "cman" cluster infrastructure. It allows logical volumes to

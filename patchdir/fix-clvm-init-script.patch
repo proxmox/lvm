@@ -1,0 +1,28 @@
+Index: lvm2new/debian/clvm.init
+===================================================================
+--- lvm2new.orig/debian/clvm.init	2011-09-20 10:42:31.000000000 +0200
++++ lvm2new/debian/clvm.init	2011-09-20 10:43:21.000000000 +0200
+@@ -4,8 +4,8 @@
+ # Provides:          clvm
+ # Required-Start:    $remote_fs lvm2 cman
+ # Required-Stop:     $remote_fs lvm2 cman
+-# Default-Start:     S
+-# Default-Stop:      0 6
++# Default-Start:     2 3 4 5
++# Default-Stop:      0 1 6
+ # Short-Description: start and stop the lvm cluster locking daemon
+ ### END INIT INFO
+ #
+Index: lvm2new/debian/rules
+===================================================================
+--- lvm2new.orig/debian/rules	2011-09-20 10:52:11.000000000 +0200
++++ lvm2new/debian/rules	2011-09-20 10:52:32.000000000 +0200
+@@ -160,7 +160,7 @@
+ install_clvm: DIR = $(BUILD_DIR)/install_deb
+ install_clvm: $(STAMPS_DIR)/install_deb
+ 	+$(MAKE_SELF) install-base-prep INSTALL_DIR='$(DIR)'
+-	dh_installinit --no-start -- start 63 S . start 51 0 6 .
++	dh_installinit --no-start -- start 63 2 3 4 5 . start 51 0 1 6 .
+ 	+$(MAKE_SELF) install-base
+ 
+ install_dmsetup: export DH_OPTIONS = -pdmsetup
