@@ -1,0 +1,5 @@
+*.deb
+*.udeb
+*.changes
+tmpdeb
+lvm2-2.02.86
