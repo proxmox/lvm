@@ -1,2 +1,3 @@
 fix-build-dependencies.patch
 fix-clvm-init-script.patch
+fix-changelog.patch
