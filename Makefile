@@ -33,13 +33,11 @@ dinstall: deb
 
 .PHONY: deb
 deb ${DEBS}: ${LVMSRC} ${LVMDEBSRC}
-	rm -rf ${LVMDIR} tmpdeb
-	mkdir tmpdeb
-	cd tmpdeb; tar xvf ../${LVMDEBSRC}
-	mv tmpdeb/debian/clvm.defaults tmpdeb/debian/clvm.default
-	cd tmpdeb; ln -s ../patchdir patches; quilt push -a	
+	rm -rf ${LVMDIR}
 	tar xf ${LVMSRC}
-	cp -av tmpdeb/debian ${LVMDIR}
+	cd ${LVMDIR}; tar xvf ../${LVMDEBSRC}
+	cd ${LVMDIR}; mv debian/clvm.defaults debian/clvm.default
+	cd ${LVMDIR}; ln -s ../patchdir patches; quilt push -a
 	cd ${LVMDIR}; dpkg-buildpackage -b -uc -us
 
 .PHONY: download
@@ -64,4 +62,4 @@ upload:
 
 .PHONY: clean
 clean:
-	rm -rf *~ tmpdeb *_${ARCH}.deb *_${ARCH}.udeb *.changes *.dsc ${LVMDIR}
+	rm -rf *~ *_${ARCH}.deb *_${ARCH}.udeb *.changes *.dsc ${LVMDIR}
