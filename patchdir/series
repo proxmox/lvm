@@ -2,3 +2,6 @@ fix-build-dependencies.patch
 fix-clvm-init-script.patch
 fix-changelog.patch
 fix-fsadm-install.patch
+remove-udebs.patch
+autodetect-locking-type.patch
+fix-lvm2-init-script-patch

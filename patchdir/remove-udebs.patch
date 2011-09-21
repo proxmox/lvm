@@ -1,0 +1,98 @@
+Index: new/debian/control
+===================================================================
+--- new.orig/debian/control	2011-09-21 07:05:16.000000000 +0200
++++ new/debian/control	2011-09-21 07:06:32.000000000 +0200
+@@ -21,20 +21,6 @@
+  volume groups can be allocated to logical volumes, which are accessed as
+  regular block devices.
+ 
+-Package: lvm2-udeb
+-XC-Package-Type: udeb
+-Section: debian-installer
+-Architecture: any
+-Depends: ${shlibs:Depends}, ${misc:Depends}
+-Description: Linux Logical Volume Manager
+- This is a udeb, or a microdeb, for the debian-installer.
+- .
+- This is LVM2, the rewrite of The Linux Logical Volume Manager.  LVM
+- supports enterprise level volume management of disk and disk subsystems
+- by grouping arbitrary disks into volume groups. The total capacity of
+- volume groups can be allocated to logical volumes, which are accessed as
+- regular block devices.
+-
+ Package: clvm
+ Priority: extra
+ Architecture: any
+@@ -78,20 +64,6 @@
+  device-mapper; it allows usage of the device-mapper through a clean,
+  consistent interface (as opposed to through kernel ioctls).
+ 
+-Package: libdevmapper1.02.1-udeb
+-XC-Package-Type: udeb
+-Section: debian-installer
+-Architecture: any
+-Depends: ${shlibs:Depends}, ${misc:Depends}
+-Description: Linux Kernel Device Mapper userspace library
+- This is a udeb, or a microdeb, for the debian-installer.
+- .
+- The Linux Kernel Device Mapper is the LVM (Linux Logical Volume Management)
+- Team's implementation of a minimalistic kernel-space driver that handles
+- volume management, while keeping knowledge of the underlying device layout
+- in user-space.  This makes it useful for not only LVM, but EVMS, software
+- raid, and other drivers that create "virtual" block devices.
+-
+ Package: dmsetup
+ Architecture: any
+ Depends: ${shlibs:Depends}, ${misc:Depends}, util-linux (>> 2.16)
+@@ -99,20 +71,6 @@
+ Description: Linux Kernel Device Mapper userspace library
+  The Linux Kernel Device Mapper is the LVM (Linux Logical Volume Management)
+  Team's implementation of a minimalistic kernel-space driver that handles
+- volume management, while keeping knowledge of the underlying device layout
+- in user-space.  This makes it useful for not only LVM, but EVMS, software
+- raid, and other drivers that create "virtual" block devices.
+- .
+- This package contains a utility for modifying device mappings.
+-
+-Package: dmsetup-udeb
+-XC-Package-Type: udeb
+-Section: debian-installer
+-Architecture: any
+-Depends: ${shlibs:Depends}, ${misc:Depends}
+-Description: Linux Kernel Device Mapper userspace library
+- The Linux Kernel Device Mapper is the LVM (Linux Logical Volume Management)
+- Team's implementation of a minimalistic kernel-space driver that handles
+  volume management, while keeping knowledge of the underlying device layout
+  in user-space.  This makes it useful for not only LVM, but EVMS, software
+  raid, and other drivers that create "virtual" block devices.
+Index: new/debian/rules
+===================================================================
+--- new.orig/debian/rules	2011-09-21 07:09:37.000000000 +0200
++++ new/debian/rules	2011-09-21 07:15:09.000000000 +0200
+@@ -65,7 +65,7 @@
+ 	cd $(DIR); autoreconf
+ 	touch $@
+ 
+-setup: $(STAMPS_DIR)/setup_deb $(STAMPS_DIR)/setup_udeb
++setup: $(STAMPS_DIR)/setup_deb
+ 
+ $(STAMPS_DIR)/setup_deb: SOURCE_DIR = $(BUILD_DIR)/source
+ $(STAMPS_DIR)/setup_deb: DIR = $(BUILD_DIR)/build_deb
+@@ -105,7 +105,7 @@
+ 		--disable-selinux
+ 	touch $@
+ 
+-build: $(STAMPS_DIR)/build_deb $(STAMPS_DIR)/build_udeb
++build: $(STAMPS_DIR)/build_deb
+ 
+ build_deb: $(STAMPS_DIR)/build_deb
+ build_udeb: $(STAMPS_DIR)/build_udeb
+@@ -240,7 +240,7 @@
+ 	+$(MAKE_SELF) install-base
+ 
+ binary-indep:
+-binary-arch: $(addprefix install_,libdevmapper libdevmapper-udeb libdevmapper-dev dmsetup dmsetup-udeb liblvm2app liblvm2cmd liblvm2-dev lvm2 lvm2-udeb clvm)
++binary-arch: $(addprefix install_,libdevmapper libdevmapper-dev dmsetup liblvm2app liblvm2cmd liblvm2-dev lvm2 clvm)
+ 
+ binary: binary-indep binary-arch
+ 

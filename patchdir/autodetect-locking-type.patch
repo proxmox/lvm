@@ -1,0 +1,73 @@
+Index: new/lib/locking/locking.c
+===================================================================
+--- new.orig/lib/locking/locking.c	2011-06-11 02:03:07.000000000 +0200
++++ new/lib/locking/locking.c	2011-09-21 10:01:47.000000000 +0200
+@@ -225,7 +225,16 @@
+ 		suppress_messages = 1;
+ 
+ 	if (type < 0)
+-		type = find_config_tree_int(cmd, "global/locking_type", 1);
++		type = find_config_tree_int(cmd, "global/locking_type", -1);
++
++	if (type < 0) {
++		struct stat info;
++		if (stat("/etc/cluster/cluster.conf", &info) == 0) {
++			type = 3;
++		} else {
++			type = 1;
++		}
++	}
+ 
+ 	_blocking_supported = find_config_tree_int(cmd,
+ 	    "global/wait_for_locks", DEFAULT_WAIT_FOR_LOCKS);
+Index: new/doc/example.conf.in
+===================================================================
+--- new.orig/doc/example.conf.in	2011-07-01 16:09:19.000000000 +0200
++++ new/doc/example.conf.in	2011-09-21 10:01:47.000000000 +0200
+@@ -350,13 +350,16 @@
+     proc = "/proc"
+ 
+     # Type of locking to use. Defaults to local file-based locking (1).
++    # Proxmox VE sets default locking_type to 3 if file 
++    # /etc/cluster/cluster.conf exists. So there is normally no need 
++    # to set this value here.
+     # Turn locking off by setting to 0 (dangerous: risks metadata corruption
+     # if LVM2 commands get run concurrently).
+     # Type 2 uses the external shared library locking_library.
+     # Type 3 uses built-in clustered locking.
+     # Type 4 uses read-only locking which forbids any operations that might 
+     # change metadata.
+-    locking_type = 1
++    # locking_type = 1
+ 
+     # Set to 0 to fail when a lock request cannot be satisfied immediately.
+     wait_for_locks = 1
+Index: new/lib/locking/cluster_locking.c
+===================================================================
+--- new.orig/lib/locking/cluster_locking.c	2011-09-21 10:08:21.000000000 +0200
++++ new/lib/locking/cluster_locking.c	2011-09-21 10:10:55.000000000 +0200
+@@ -66,10 +66,14 @@
+ {
+ 	int local_socket;
+ 	struct sockaddr_un sockaddr;
++	int suppress_messages = 0;
++
++	if (ignorelockingfailure() && getenv("LVM_SUPPRESS_LOCKING_FAILURE_MESSAGES"))
++		suppress_messages = 1;
+ 
+ 	/* Open local socket */
+ 	if ((local_socket = socket(PF_UNIX, SOCK_STREAM, 0)) < 0) {
+-		log_error("Local socket creation failed: %s", strerror(errno));
++		log_error_suppress(suppress_messages, "Local socket creation failed: %s", strerror(errno));
+ 		return -1;
+ 	}
+ 
+@@ -82,7 +86,7 @@
+ 		    sizeof(sockaddr))) {
+ 		int saved_errno = errno;
+ 
+-		log_error("connect() failed on local socket: %s",
++		log_error_suppress(suppress_messages, "connect() failed on local socket: %s",
+ 			  strerror(errno));
+ 		if (close(local_socket))
+ 			stack;

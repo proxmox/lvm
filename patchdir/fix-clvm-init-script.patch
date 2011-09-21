@@ -1,7 +1,7 @@
-Index: lvm2new/debian/clvm.init
+Index: new/debian/clvm.init
 ===================================================================
---- lvm2new.orig/debian/clvm.init	2011-09-20 10:42:31.000000000 +0200
-+++ lvm2new/debian/clvm.init	2011-09-20 10:43:21.000000000 +0200
+--- new.orig/debian/clvm.init	2011-09-21 11:08:28.000000000 +0200
++++ new/debian/clvm.init	2011-09-21 11:22:15.000000000 +0200
 @@ -4,8 +4,8 @@
  # Provides:          clvm
  # Required-Start:    $remote_fs lvm2 cman
@@ -13,10 +13,43 @@ Index: lvm2new/debian/clvm.init
  # Short-Description: start and stop the lvm cluster locking daemon
  ### END INIT INFO
  #
-Index: lvm2new/debian/rules
+@@ -44,10 +44,10 @@
+ 
+ do_start()
+ {
+-	start-stop-daemon --start --quiet --exec $DAEMON -- $DAEMON_OPTS || status="$?"
++	start-stop-daemon --start --quiet --exec $DAEMON -- $DAEMON_OPTS || return $?
+ 	# flush cache
+ 	vgscan > /dev/null 2>&1 
+-	return $status
++	return 0
+ }
+ 
+ do_activate()
+@@ -91,7 +91,7 @@
+ 		case "$status" in
+ 			0) log_end_msg 0 ;;
+ 			1) log_action_msg " already running" ; log_end_msg 0 ;;
+-			*) log_end_msg 1 ;;
++			*) log_end_msg 1 ; exit $status ;;
+ 		esac
+ 		# and activate clustered volume groups
+ 		do_activate
+@@ -99,6 +99,10 @@
+ 		exit $status
+ 	;;
+ 	stop)
++		pid=$( pidof $DAEMON )
++		if [ -z "$pid" ] ; then
++			exit 0
++		fi
+ 		# deactivate volumes...
+ 		log_daemon_msg "Deactivating VG $vg:"
+ 		do_deactivate
+Index: new/debian/rules
 ===================================================================
---- lvm2new.orig/debian/rules	2011-09-20 10:52:11.000000000 +0200
-+++ lvm2new/debian/rules	2011-09-20 10:52:32.000000000 +0200
+--- new.orig/debian/rules	2011-09-21 11:08:28.000000000 +0200
++++ new/debian/rules	2011-09-21 11:08:51.000000000 +0200
 @@ -160,7 +160,7 @@
  install_clvm: DIR = $(BUILD_DIR)/install_deb
  install_clvm: $(STAMPS_DIR)/install_deb
