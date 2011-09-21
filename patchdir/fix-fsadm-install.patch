@@ -1,0 +1,22 @@
+Index: new/debian/lvm2.install
+===================================================================
+--- new.orig/debian/lvm2.install	2011-09-21 06:48:45.000000000 +0200
++++ new/debian/lvm2.install	2011-09-21 06:49:33.000000000 +0200
+@@ -8,3 +8,5 @@
+ usr/share/man/man8/pv*
+ usr/share/man/man8/vg*
+ usr/share/man/man5
++usr/share/man/man8/fsadm.8
++
+Index: new/debian/rules
+===================================================================
+--- new.orig/debian/rules	2011-09-21 06:50:35.000000000 +0200
++++ new/debian/rules	2011-09-21 06:51:15.000000000 +0200
+@@ -81,6 +81,7 @@
+ 		--with-device-uid=0 \
+ 		--with-device-gid=6 \
+ 		--with-device-mode=0660 \
++		--enable-fsadm \
+ 		--enable-applib \
+ 		--enable-cmdlib \
+ 		--enable-pkgconfig \
