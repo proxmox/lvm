@@ -1,0 +1,29 @@
+Index: new/lib/locking/cluster_locking.c
+===================================================================
+--- new.orig/lib/locking/cluster_locking.c	2011-09-21 10:08:21.000000000 +0200
++++ new/lib/locking/cluster_locking.c	2011-09-21 10:10:55.000000000 +0200
+@@ -66,10 +66,14 @@
+ {
+ 	int local_socket;
+ 	struct sockaddr_un sockaddr;
++	int suppress_messages = 0;
++
++	if (ignorelockingfailure() && getenv("LVM_SUPPRESS_LOCKING_FAILURE_MESSAGES"))
++		suppress_messages = 1;
+ 
+ 	/* Open local socket */
+ 	if ((local_socket = socket(PF_UNIX, SOCK_STREAM, 0)) < 0) {
+-		log_error("Local socket creation failed: %s", strerror(errno));
++		log_error_suppress(suppress_messages, "Local socket creation failed: %s", strerror(errno));
+ 		return -1;
+ 	}
+ 
+@@ -82,7 +86,7 @@
+ 		    sizeof(sockaddr))) {
+ 		int saved_errno = errno;
+ 
+-		log_error("connect() failed on local socket: %s",
++		log_error_suppress(suppress_messages, "connect() failed on local socket: %s",
+ 			  strerror(errno));
+ 		if (close(local_socket))
+ 			stack;

@@ -3,5 +3,7 @@ fix-clvm-init-script.patch
 fix-changelog.patch
 fix-fsadm-install.patch
 remove-udebs.patch
-autodetect-locking-type.patch
+#autodetect-locking-type.patch
+suppress-error-messages.patch
 fix-lvm2-init-script-patch
+fix-libdevmapper-priority.patch

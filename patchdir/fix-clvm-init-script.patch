@@ -1,7 +1,7 @@
 Index: new/debian/clvm.init
 ===================================================================
---- new.orig/debian/clvm.init	2011-09-21 11:08:28.000000000 +0200
-+++ new/debian/clvm.init	2011-09-21 11:22:15.000000000 +0200
+--- new.orig/debian/clvm.init	2011-11-25 08:39:04.000000000 +0100
++++ new/debian/clvm.init	2011-11-25 08:42:54.000000000 +0100
 @@ -4,8 +4,8 @@
  # Provides:          clvm
  # Required-Start:    $remote_fs lvm2 cman
@@ -13,8 +13,36 @@ Index: new/debian/clvm.init
  # Short-Description: start and stop the lvm cluster locking daemon
  ### END INIT INFO
  #
-@@ -44,10 +44,10 @@
+@@ -26,28 +26,31 @@
+ . /lib/lsb/init-functions
  
+ if [ ! -f /etc/cluster/cluster.conf ]; then
+-	log_failure_msg "clvmd: cluster not configured. Aborting."
++        log_action_msg "clvmd: cluster not configured"
+ 	exit 0
+ fi
+ 
+-if ! cman_tool status >/dev/null 2>&1; then
+-	log_failure_msg "clvmd: cluster is not running. Aborting."
+-	exit 0
+-fi
+-
+-CLVMDTIMEOUT=20
++CLVMDTIMEOUT=30
++START_CLVM=no
+ 
+ # Read configuration variable file if it is present
+ [ -r /etc/default/$NAME ] && . /etc/default/$NAME
+ 
++[ "$START_CLVM" = "yes" ] || exit 0
++
+ DAEMON_OPTS="-T$CLVMDTIMEOUT"
+ 
++if ! cman_tool status >/dev/null 2>&1; then
++	log_failure_msg "clvmd: cluster is not running. Aborting."
++	exit 1
++fi
++
  do_start()
  {
 -	start-stop-daemon --start --quiet --exec $DAEMON -- $DAEMON_OPTS || status="$?"
@@ -26,6 +54,16 @@ Index: new/debian/clvm.init
  }
  
  do_activate()
+@@ -55,9 +58,6 @@
+ 	if [ -n "$LVM_VGS" ] ; then
+ 		log_action_msg  "Activating VGs $LVM_VGS"
+ 		vgchange -ayl $LVM_VGS || return $?
+-	else
+-		log_action_msg  "Activating all VGs"
+-		vgchange -ayl || return $?
+ 	fi
+ }
+ 
 @@ -91,7 +91,7 @@
  		case "$status" in
  			0) log_end_msg 0 ;;
@@ -48,8 +86,8 @@ Index: new/debian/clvm.init
  		do_deactivate
 Index: new/debian/rules
 ===================================================================
---- new.orig/debian/rules	2011-09-21 11:08:28.000000000 +0200
-+++ new/debian/rules	2011-09-21 11:08:51.000000000 +0200
+--- new.orig/debian/rules	2011-11-25 08:39:04.000000000 +0100
++++ new/debian/rules	2011-11-25 08:39:39.000000000 +0100
 @@ -160,7 +160,7 @@
  install_clvm: DIR = $(BUILD_DIR)/install_deb
  install_clvm: $(STAMPS_DIR)/install_deb
@@ -59,3 +97,20 @@ Index: new/debian/rules
  	+$(MAKE_SELF) install-base
  
  install_dmsetup: export DH_OPTIONS = -pdmsetup
+Index: new/debian/clvm.default
+===================================================================
+--- new.orig/debian/clvm.default	2011-11-25 08:39:04.000000000 +0100
++++ new/debian/clvm.default	2011-11-25 08:42:26.000000000 +0100
+@@ -1,8 +1,11 @@
+ # Bourne shell compatible script, sourced by /etc/init.d/clvm to set
+ # additional arguments for clvmd.
+ 
++# enable clmvd
++#START_CLVM=yes
++
+ # Startup timeout: 
+-CLVMDTIMEOUT=20
++#CLVMDTIMEOUT=30
+ 
+ # Volume groups to activate on startup:
+ # LVM_VGS="cluster_vg1 cluster_vg2"
