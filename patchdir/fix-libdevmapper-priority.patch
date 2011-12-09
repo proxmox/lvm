@@ -1,8 +1,8 @@
-Index: new/debian/control
+Index: lvm2-2.02.88/debian/control
 ===================================================================
---- new.orig/debian/control	2011-09-22 10:21:22.000000000 +0200
-+++ new/debian/control	2011-09-22 10:21:53.000000000 +0200
-@@ -47,7 +47,7 @@
+--- lvm2-2.02.88.orig/debian/control	2011-12-09 06:23:56.000000000 +0100
++++ lvm2-2.02.88/debian/control	2011-12-09 06:29:54.000000000 +0100
+@@ -46,7 +46,7 @@
  
  Package: libdevmapper1.02.1
  Section: libs

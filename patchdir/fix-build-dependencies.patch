@@ -1,25 +1,36 @@
 Index: new/debian/control
 ===================================================================
---- new.orig/debian/control	2011-09-20 12:49:53.000000000 +0200
-+++ new/debian/control	2011-09-20 12:52:06.000000000 +0200
+--- new.orig/debian/control	2011-12-09 06:57:00.000000000 +0100
++++ new/debian/control	2011-12-09 07:04:40.000000000 +0100
 @@ -1,9 +1,8 @@
  Source: lvm2
  Section: admin
  Priority: optional
 -Maintainer: Debian LVM Team <pkg-lvm-maintainers@lists.alioth.debian.org>
 -Uploaders: Bastian Blank <waldi@debian.org>
--Build-Depends: debhelper (>> 7), automake, libcman-dev (>> 2), libdlm-dev (>> 2), libreadline-gplv2-dev, libselinux1-dev, libudev-dev, pkg-config, quilt
+-Build-Depends: debhelper (>> 7), automake, libcman-dev (>> 2), libcorosync-dev, libdlm-dev (>> 2), libreadline-gplv2-dev, libselinux1-dev, libudev-dev, openais-dev, pkg-config
 +Maintainer: Proxmox Support Team <support@proxmox.com>
-+Build-Depends: debhelper (>> 7), automake, redhat-cluster-pve-dev, libreadline6-dev, libselinux1-dev, libudev-dev, pkg-config, quilt
++Build-Depends: debhelper (>> 7), automake, libcorosync-pve-dev, redhat-cluster-pve-dev, libreadline6-dev, libselinux1-dev, libudev-dev, libopenais-pve-dev, pkg-config, quilt
  Standards-Version: 3.9.1
  Homepage: http://sources.redhat.com/lvm2/
  Vcs-Svn: svn://svn.debian.org/pkg-lvm/lvm2/trunk/
-@@ -39,7 +38,7 @@
+@@ -11,8 +10,8 @@
+ 
+ Package: lvm2
+ Architecture: any
+-Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base, dmsetup (>> 2:1.02.47), initscripts (>= 2.88dsf-13.3)
+-Breaks: initramfs-tools (<< 0.99)
++Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base, dmsetup (>> 2:1.02.47), initscripts (>= 2.88dsf-13.1)
++#Breaks: initramfs-tools (<< 0.99)
+ Description: Linux Logical Volume Manager
+  This is LVM2, the rewrite of The Linux Logical Volume Manager.  LVM
+  supports enterprise level volume management of disk and disk subsystems
+@@ -37,7 +36,7 @@
  Package: clvm
  Priority: extra
  Architecture: any
--Depends: ${shlibs:Depends}, ${misc:Depends}, lvm2 (= ${binary:Version}), lsb-base, cman
+-Depends: ${shlibs:Depends}, ${misc:Depends}, lvm2 (= ${binary:Version}), lsb-base, corosync | cman
 +Depends: ${shlibs:Depends}, ${misc:Depends}, lvm2 (= ${binary:Version}), lsb-base, redhat-cluster-pve
  Description: Cluster LVM Daemon for lvm2
-  This package provides the clustering interface for lvm2, when used with 
-  Red Hat's "cman" cluster infrastructure. It allows logical volumes to
+  This package provides the clustering interface for lvm2, when used with
+  Red Hat's "cman" or corosync based (eg Pacemaker) cluster infrastructure.

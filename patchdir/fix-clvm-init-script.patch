@@ -1,7 +1,7 @@
-Index: new/debian/clvm.init
+Index: lvm2-2.02.88/debian/clvm.init
 ===================================================================
---- new.orig/debian/clvm.init	2011-11-25 08:39:04.000000000 +0100
-+++ new/debian/clvm.init	2011-11-25 08:42:54.000000000 +0100
+--- lvm2-2.02.88.orig/debian/clvm.init	2010-10-30 18:03:53.000000000 +0200
++++ lvm2-2.02.88/debian/clvm.init	2011-12-09 06:16:44.000000000 +0100
 @@ -4,8 +4,8 @@
  # Provides:          clvm
  # Required-Start:    $remote_fs lvm2 cman
@@ -84,11 +84,11 @@ Index: new/debian/clvm.init
  		# deactivate volumes...
  		log_daemon_msg "Deactivating VG $vg:"
  		do_deactivate
-Index: new/debian/rules
+Index: lvm2-2.02.88/debian/rules
 ===================================================================
---- new.orig/debian/rules	2011-11-25 08:39:04.000000000 +0100
-+++ new/debian/rules	2011-11-25 08:39:39.000000000 +0100
-@@ -160,7 +160,7 @@
+--- lvm2-2.02.88.orig/debian/rules	2011-11-06 17:56:55.000000000 +0100
++++ lvm2-2.02.88/debian/rules	2011-12-09 06:16:44.000000000 +0100
+@@ -156,7 +156,7 @@
  install_clvm: DIR = $(BUILD_DIR)/install_deb
  install_clvm: $(STAMPS_DIR)/install_deb
  	+$(MAKE_SELF) install-base-prep INSTALL_DIR='$(DIR)'
@@ -97,10 +97,10 @@ Index: new/debian/rules
  	+$(MAKE_SELF) install-base
  
  install_dmsetup: export DH_OPTIONS = -pdmsetup
-Index: new/debian/clvm.default
+Index: lvm2-2.02.88/debian/clvm.default
 ===================================================================
---- new.orig/debian/clvm.default	2011-11-25 08:39:04.000000000 +0100
-+++ new/debian/clvm.default	2011-11-25 08:42:26.000000000 +0100
+--- lvm2-2.02.88.orig/debian/clvm.default	2008-11-19 11:49:38.000000000 +0100
++++ lvm2-2.02.88/debian/clvm.default	2011-12-09 06:16:44.000000000 +0100
 @@ -1,8 +1,11 @@
  # Bourne shell compatible script, sourced by /etc/init.d/clvm to set
  # additional arguments for clvmd.

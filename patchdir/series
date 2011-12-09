@@ -4,6 +4,7 @@ fix-changelog.patch
 fix-fsadm-install.patch
 remove-udebs.patch
 #autodetect-locking-type.patch
-suppress-error-messages.patch
+#suppress-error-messages.patch
 fix-lvm2-init-script-patch
 fix-libdevmapper-priority.patch
+remove-openais-clvm.patch

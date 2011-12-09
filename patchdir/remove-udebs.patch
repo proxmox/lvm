@@ -1,8 +1,8 @@
-Index: new/debian/control
+Index: lvm2-2.02.88/debian/control
 ===================================================================
---- new.orig/debian/control	2011-09-21 07:05:16.000000000 +0200
-+++ new/debian/control	2011-09-21 07:06:32.000000000 +0200
-@@ -21,20 +21,6 @@
+--- lvm2-2.02.88.orig/debian/control	2011-12-09 06:16:23.000000000 +0100
++++ lvm2-2.02.88/debian/control	2011-12-09 06:23:56.000000000 +0100
+@@ -19,20 +19,6 @@
   volume groups can be allocated to logical volumes, which are accessed as
   regular block devices.
  
@@ -23,7 +23,7 @@ Index: new/debian/control
  Package: clvm
  Priority: extra
  Architecture: any
-@@ -78,20 +64,6 @@
+@@ -77,20 +63,6 @@
   device-mapper; it allows usage of the device-mapper through a clean,
   consistent interface (as opposed to through kernel ioctls).
  
@@ -44,7 +44,7 @@ Index: new/debian/control
  Package: dmsetup
  Architecture: any
  Depends: ${shlibs:Depends}, ${misc:Depends}, util-linux (>> 2.16)
-@@ -99,20 +71,6 @@
+@@ -98,20 +70,6 @@
  Description: Linux Kernel Device Mapper userspace library
   The Linux Kernel Device Mapper is the LVM (Linux Logical Volume Management)
   Team's implementation of a minimalistic kernel-space driver that handles
@@ -65,11 +65,11 @@ Index: new/debian/control
   volume management, while keeping knowledge of the underlying device layout
   in user-space.  This makes it useful for not only LVM, but EVMS, software
   raid, and other drivers that create "virtual" block devices.
-Index: new/debian/rules
+Index: lvm2-2.02.88/debian/rules
 ===================================================================
---- new.orig/debian/rules	2011-09-21 07:09:37.000000000 +0200
-+++ new/debian/rules	2011-09-21 07:15:09.000000000 +0200
-@@ -65,7 +65,7 @@
+--- lvm2-2.02.88.orig/debian/rules	2011-12-09 06:22:58.000000000 +0100
++++ lvm2-2.02.88/debian/rules	2011-12-09 06:25:31.000000000 +0100
+@@ -59,7 +59,7 @@
  	cd $(DIR); autoreconf
  	touch $@
  
@@ -78,7 +78,7 @@ Index: new/debian/rules
  
  $(STAMPS_DIR)/setup_deb: SOURCE_DIR = $(BUILD_DIR)/source
  $(STAMPS_DIR)/setup_deb: DIR = $(BUILD_DIR)/build_deb
-@@ -105,7 +105,7 @@
+@@ -101,7 +101,7 @@
  		--disable-selinux
  	touch $@
  
@@ -87,12 +87,12 @@ Index: new/debian/rules
  
  build_deb: $(STAMPS_DIR)/build_deb
  build_udeb: $(STAMPS_DIR)/build_udeb
-@@ -240,7 +240,7 @@
+@@ -223,7 +223,7 @@
  	+$(MAKE_SELF) install-base
  
  binary-indep:
--binary-arch: $(addprefix install_,libdevmapper libdevmapper-udeb libdevmapper-dev dmsetup dmsetup-udeb liblvm2app liblvm2cmd liblvm2-dev lvm2 lvm2-udeb clvm)
-+binary-arch: $(addprefix install_,libdevmapper libdevmapper-dev dmsetup liblvm2app liblvm2cmd liblvm2-dev lvm2 clvm)
+-binary-arch: $(addprefix install_,libdevmapper libdevmapper-udeb libdevmapper-dev dmsetup dmsetup-udeb liblvm2 lvm2 lvm2-udeb clvm)
++binary-arch: $(addprefix install_,libdevmapper libdevmapper-dev dmsetup liblvm2 lvm2 clvm)
  
  binary: binary-indep binary-arch
  
