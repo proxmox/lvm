@@ -8,3 +8,4 @@ remove-udebs.patch
 fix-lvm2-init-script-patch
 fix-libdevmapper-priority.patch
 remove-openais-clvm.patch
+enable-issue-discard.patch
