@@ -1,8 +1,14 @@
-Index: lvm2-2.02.88/debian/changelog
+Index: LVM2.2.02.95/debian/changelog
 ===================================================================
---- lvm2-2.02.88.orig/debian/changelog	2011-11-26 18:51:44.000000000 +0100
-+++ lvm2-2.02.88/debian/changelog	2012-03-09 09:56:19.000000000 +0100
-@@ -1,3 +1,29 @@
+--- LVM2.2.02.95.orig/debian/changelog	2011-11-26 18:51:44.000000000 +0100
++++ LVM2.2.02.95/debian/changelog	2012-04-23 07:54:36.000000000 +0200
+@@ -1,3 +1,35 @@
++lvm2 (2.02.95-1pve1) unstable; urgency=low
++
++  * update to latest available lvm 2.0.95
++
++ -- Proxmox Support Team <support@proxmox.com>  Mon, 23 Apr 2012 07:54:36 +0200
++
 +lvm2 (2.02.88-2pve2) unstable; urgency=low
 +
 +  * enable issue_discard in default lvm.conf
@@ -32,7 +38,7 @@ Index: lvm2-2.02.88/debian/changelog
  lvm2 (2.02.88-2) unstable; urgency=low
  
    * Enable corosync and openais support. (closes: #563320)
-@@ -76,7 +102,7 @@
+@@ -76,7 +108,7 @@
  
    * Import upstream version 2.02.72:
      - CVE-2010-2526: Fix insecure communication between lvm2 and clvmd.
@@ -41,7 +47,7 @@ Index: lvm2-2.02.88/debian/changelog
      - Only use single node clvm if explicitly requested.
  
   -- Bastian Blank <waldi@debian.org>  Thu, 19 Aug 2010 14:44:02 +0200
-@@ -543,7 +569,7 @@
+@@ -543,7 +575,7 @@
    * Don't make /lib/lvm2 the default library directory as it causes initrd
      troubles.
      Closes: #287042
@@ -50,7 +56,7 @@ Index: lvm2-2.02.88/debian/changelog
   -- Patrick Caulfield <patrick@debian.org>  Fri, 24 Dec 2004 12:27:05 +0000
  
  lvm2 (2.00.31-1) unstable; urgency=low
-@@ -571,7 +597,7 @@
+@@ -571,7 +603,7 @@
    * Remove "is not recommended for production use" from package description.
      Closes: #278919
    * Add lvm2create_initrd to documentation directory.
@@ -59,7 +65,7 @@ Index: lvm2-2.02.88/debian/changelog
   -- Patrick Caulfield <patrick@debian.org>  Wed,  3 Nov 2004 09:37:56 +0000
  
  lvm2 (2.00.24-2) unstable; urgency=low
-@@ -616,7 +642,7 @@
+@@ -616,7 +648,7 @@
      Closes: #260700
    * Add Czech debconf translation
      Closes: #265545
@@ -68,7 +74,7 @@ Index: lvm2-2.02.88/debian/changelog
   -- Patrick Caulfield <patrick@debian.org>  Fri, 20 Aug 2004 10:44:11 +0100
  
  lvm2 (2.00.19-3) unstable; urgency=low
-@@ -756,7 +782,7 @@
+@@ -756,7 +788,7 @@
   -- Andres Salomon <dilinger@voxel.net>  Thu, 07 Aug 2003 01:04:59 -0400
  
  lvm2 (1.95.15-2) unstable; urgency=low
@@ -77,7 +83,7 @@ Index: lvm2-2.02.88/debian/changelog
    * Calm-before-the-storm release; the next one will either be 2.00 (once
      the kill-yer-VGs bug is fixed) or 1.95 with lvm10 compatibility (once
      patrick returns from vacation).
-@@ -832,7 +858,7 @@
+@@ -832,7 +864,7 @@
    * Add dmsetup as a suggestion.
    * Add /etc/lvm/lvm.conf conffile.
    * Add undocumented(7) for the commands missing manpages.

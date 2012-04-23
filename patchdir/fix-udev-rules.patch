@@ -1,0 +1,14 @@
+ Use udev rules provided by upstream packages
+
+ The debian version 55-dm.rules triggers bug #127 with our setup (rhel kernel).
+
+Index: LVM2.2.02.95/debian/dmsetup.install
+===================================================================
+--- LVM2.2.02.95.orig/debian/dmsetup.install	2010-03-16 20:58:19.000000000 +0100
++++ LVM2.2.02.95/debian/dmsetup.install	2012-04-23 11:22:04.000000000 +0200
+@@ -1,3 +1,4 @@
+-../../tree/dmsetup/* /
++../../tree/dmsetup/lib/udev/rules.d/60-persistent-storage-dm.rules /lib/udev/rules.d
++lib/udev/rules.d/
+ sbin/dmsetup
+ usr/share/man/man8/dmsetup.8
