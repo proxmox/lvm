@@ -5,39 +5,69 @@
 Index: LVM2.2.02.95/debian/dmsetup.install
 ===================================================================
 --- LVM2.2.02.95.orig/debian/dmsetup.install	2010-03-16 20:58:19.000000000 +0100
-+++ LVM2.2.02.95/debian/dmsetup.install	2012-04-27 07:17:20.000000000 +0200
-@@ -1,3 +1,4 @@
++++ LVM2.2.02.95/debian/dmsetup.install	2012-04-27 09:17:05.000000000 +0200
+@@ -1,3 +1,7 @@
 -../../tree/dmsetup/* /
 +../../tree/dmsetup/usr/share/initramfs-tools/hooks/dmsetup /usr/share/initramfs-tools/hooks
-+lib/udev/rules.d
++lib/udev/rules.d/55-dm.rules
++lib/udev/rules.d/60-persistent-storage-dm.rules
++lib/udev/rules.d/95-dm-notify.rules
  sbin/dmsetup
  usr/share/man/man8/dmsetup.8
++
 Index: LVM2.2.02.95/debian/tree/dmsetup/usr/share/initramfs-tools/hooks/dmsetup
 ===================================================================
 --- LVM2.2.02.95.orig/debian/tree/dmsetup/usr/share/initramfs-tools/hooks/dmsetup	2009-10-12 04:39:36.000000000 +0200
-+++ LVM2.2.02.95/debian/tree/dmsetup/usr/share/initramfs-tools/hooks/dmsetup	2012-04-27 07:17:20.000000000 +0200
++++ LVM2.2.02.95/debian/tree/dmsetup/usr/share/initramfs-tools/hooks/dmsetup	2012-04-27 09:17:05.000000000 +0200
 @@ -10,7 +10,7 @@
  . /usr/share/initramfs-tools/hook-functions
  
  mkdir -p $DESTDIR/lib/udev/rules.d/
 -for rules in 55-dm.rules 60-persistent-storage-dm.rules; do
-+for rules in 55-dm.rules 56-dm-lvm 58-dm-disk.rules 60-persistent-storage-dm.rules 95-dm-notify.rules; do
++for rules in 55-dm.rules 60-persistent-storage-dm.rules 95-dm-notify.rules; do
  	if   [ -e /etc/udev/rules.d/$rules ]; then
  		cp -p /etc/udev/rules.d/$rules $DESTDIR/lib/udev/rules.d/
  	elif [ -e /lib/udev/rules.d/$rules ]; then
 Index: LVM2.2.02.95/debian/rules
 ===================================================================
---- LVM2.2.02.95.orig/debian/rules	2012-04-27 07:17:46.000000000 +0200
-+++ LVM2.2.02.95/debian/rules	2012-04-27 07:18:10.000000000 +0200
-@@ -163,7 +163,11 @@
+--- LVM2.2.02.95.orig/debian/rules	2012-04-27 09:17:05.000000000 +0200
++++ LVM2.2.02.95/debian/rules	2012-04-27 09:19:15.000000000 +0200
+@@ -1,6 +1,6 @@
+ #!/usr/bin/make -f
+ 
+-# Uncomment this to turn on verbose mode. 
++# Uncomment this to turn on verbose mode.
+ #export DH_VERBOSE=1
+ 
+ DEB_HOST_ARCH       ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+@@ -163,7 +163,10 @@
  
  install_dmsetup: export DH_OPTIONS = -pdmsetup
  install_dmsetup: DIR = $(BUILD_DIR)/install_deb
 +install_dmsetup: UDEVDIR = $(BUILD_DIR)/install_deb/lib/udev/rules.d
  install_dmsetup: $(STAMPS_DIR)/install_deb
-+	mv $(UDEVDIR)/10-dm.rules $(UDEVDIR)/55-dm.rules		
-+	mv $(UDEVDIR)/11-dm-lvm.rules $(UDEVDIR)/56-dm-lvm.rules		
-+	mv $(UDEVDIR)/13-dm-disk.rules $(UDEVDIR)/58-dm-disk.rules		
++	mv $(UDEVDIR)/10-dm.rules $(UDEVDIR)/55-dm.rules
++	mv $(UDEVDIR)/13-dm-disk.rules $(UDEVDIR)/60-persistent-storage-dm.rules
  	+$(MAKE_SELF) install-base-prep INSTALL_DIR='$(DIR)'
  	+$(MAKE_SELF) install-base CHANGELOG=WHATS_NEW_DM GENCONTROL_ARGS="-v$(DEVMAPPER_VERSION_DEBIAN)"
  
+@@ -212,7 +215,9 @@
+ 
+ install_lvm2: export DH_OPTIONS = -plvm2
+ install_lvm2: DIR = $(BUILD_DIR)/install_deb
++install_lvm2: UDEVDIR = $(BUILD_DIR)/install_deb/lib/udev/rules.d
+ install_lvm2: $(STAMPS_DIR)/install_deb
++	mv $(UDEVDIR)/11-dm-lvm.rules $(UDEVDIR)/56-lvm.rules
+ 	+$(MAKE_SELF) install-base-prep INSTALL_DIR='$(DIR)'
+ 	dh_installinit --no-start -- start 26 S .
+ 	+$(MAKE_SELF) install-base
+Index: LVM2.2.02.95/debian/lvm2.install
+===================================================================
+--- LVM2.2.02.95.orig/debian/lvm2.install	2012-04-27 09:17:05.000000000 +0200
++++ LVM2.2.02.95/debian/lvm2.install	2012-04-27 09:17:05.000000000 +0200
+@@ -1,4 +1,4 @@
+-../../tree/lvm2/* /
++lib/udev/rules.d/56-lvm.rules
+ etc/lvm/lvm.conf
+ sbin/fsadm
+ sbin/lv*
