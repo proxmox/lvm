@@ -1,0 +1,279 @@
+diff -N -r -u a/debian/clvm.default b/debian/clvm.default
+--- a/debian/clvm.default	1970-01-01 01:00:00.000000000 +0100
++++ b/debian/clvm.default	2013-03-14 09:45:46.000000000 +0100
+@@ -0,0 +1,12 @@
++# Bourne shell compatible script, sourced by /etc/init.d/clvm to set
++# additional arguments for clvmd.
++
++# enable clmvd
++#START_CLVM=yes
++
++# Startup timeout: 
++#CLVMDTIMEOUT=30
++
++# Volume groups to activate on startup:
++# LVM_VGS="cluster_vg1 cluster_vg2"
++
+diff -N -r -u a/debian/clvm.examples b/debian/clvm.examples
+--- a/debian/clvm.examples	1970-01-01 01:00:00.000000000 +0100
++++ b/debian/clvm.examples	2013-03-14 09:04:36.000000000 +0100
+@@ -0,0 +1 @@
++scripts/clvmd_fix_conf.sh
+diff -N -r -u a/debian/clvm.init b/debian/clvm.init
+--- a/debian/clvm.init	1970-01-01 01:00:00.000000000 +0100
++++ b/debian/clvm.init	2013-03-14 09:45:46.000000000 +0100
+@@ -0,0 +1,145 @@
++#!/bin/sh
++#
++### BEGIN INIT INFO
++# Provides:          clvm
++# Required-Start:    $remote_fs lvm2 cman
++# Required-Stop:     $remote_fs lvm2 cman
++# Default-Start:     2 3 4 5
++# Default-Stop:      0 1 6
++# Short-Description: start and stop the lvm cluster locking daemon
++### END INIT INFO
++#
++# Author: Frederik Schüler <fs@debian.org>
++# based on the old clvm init script from etch
++# and the clvmd init script from RHEL5
++
++PATH=/sbin:/usr/sbin:/bin:/usr/bin
++DESC="Cluster LVM Daemon"
++NAME=clvm
++DAEMON=/usr/sbin/clvmd
++SCRIPTNAME=/etc/init.d/clvm
++
++[ -x $DAEMON ] || exit 0
++
++. /lib/init/vars.sh
++
++. /lib/lsb/init-functions
++
++if [ ! -f /etc/cluster/cluster.conf ]; then
++        log_action_msg "clvmd: cluster not configured"
++	exit 0
++fi
++
++CLVMDTIMEOUT=30
++START_CLVM=no
++
++# Read configuration variable file if it is present
++[ -r /etc/default/$NAME ] && . /etc/default/$NAME
++
++[ "$START_CLVM" = "yes" ] || exit 0
++
++DAEMON_OPTS="-T$CLVMDTIMEOUT"
++
++if ! cman_tool status >/dev/null 2>&1; then
++	log_failure_msg "clvmd: cluster is not running. Aborting."
++	exit 1
++fi
++
++do_start()
++{
++	start-stop-daemon --start --quiet --exec $DAEMON -- $DAEMON_OPTS || return $?
++	# flush cache
++	vgscan > /dev/null 2>&1 
++	return 0
++}
++
++do_activate()
++{
++	if [ -n "$LVM_VGS" ] ; then
++		log_action_msg  "Activating VGs $LVM_VGS"
++		vgchange -ayl $LVM_VGS || return $?
++	fi
++}
++
++do_deactivate()
++{
++	if [ -n "$LVM_VGS" ] ; then
++		vgs="$LVM_VGS"
++	else
++		# Hack to only deactivate clustered volumes
++		vgs=$(vgdisplay -C -o vg_name,vg_attr --noheadings 2> /dev/null | awk '($2 ~ /.....c/) {print $1}')
++	fi
++
++	[ "$vgs" ] || return 0
++
++	vgchange -anl $vgs || return $?
++}
++
++do_stop()
++{
++	start-stop-daemon --stop --quiet --name clvmd
++	status=$?
++	return $status
++}
++
++case "$1" in
++  	start)
++		# start the daemon...
++		log_daemon_msg "Starting $DESC" "$NAME"
++		do_start
++		status=$?
++		case "$status" in
++			0) log_end_msg 0 ;;
++			1) log_action_msg " already running" ; log_end_msg 0 ;;
++			*) log_end_msg 1 ; exit $status ;;
++		esac
++		# and activate clustered volume groups
++		do_activate
++		status=$?
++		exit $status
++	;;
++	stop)
++		pid=$( pidof $DAEMON )
++		if [ -z "$pid" ] ; then
++			exit 0
++		fi
++		# deactivate volumes...
++		log_daemon_msg "Deactivating VG $vg:"
++		do_deactivate
++		status=$?
++		case "$status" in
++			0) log_end_msg 0 ;;
++			1) log_end_msg 0 ;;
++			*) log_end_msg 1 ;;
++		esac
++		# and stop the daemon
++		log_daemon_msg "Stopping $DESC" "$NAME"
++		do_stop
++		status=$?
++		case "$status" in
++			0) log_end_msg 0 ; exit 0 ;;
++			1) log_end_msg 0 ; exit 0 ;;
++			*) log_end_msg 1 ; exit $status ;;
++		esac
++	;;
++	restart|force-reload)
++		$0 stop
++		sleep 1
++		$0 start
++	;;
++	status)
++		pid=$( pidof $DAEMON )
++		if [ -n "$pid" ] ; then
++			log_action_msg "$DESC is running" 
++		else
++			log_action_msg "$DESC is not running"
++		fi
++		exit 0
++	;;
++	*)
++		echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload|status}" >&2
++		exit 1
++	;;
++esac
++
++exit 0
+diff -N -r -u a/debian/clvm.install b/debian/clvm.install
+--- a/debian/clvm.install	1970-01-01 01:00:00.000000000 +0100
++++ b/debian/clvm.install	2013-03-14 09:04:36.000000000 +0100
+@@ -0,0 +1,2 @@
++usr/sbin/clvmd
++usr/share/man/man8/clvmd*
+diff -N -r -u a/debian/clvm.NEWS b/debian/clvm.NEWS
+--- a/debian/clvm.NEWS	1970-01-01 01:00:00.000000000 +0100
++++ b/debian/clvm.NEWS	2013-03-14 09:04:36.000000000 +0100
+@@ -0,0 +1,11 @@
++lvm2 (2.02.39-4) unstable; urgency=low
++
++  The cluster locking support is now built as internal support. This
++  means that the lvm config needs to contain the following to use this
++  support.
++
++  global {
++      locking_type = 3
++  }
++
++ -- Bastian Blank <waldi@debian.org>  Fri, 21 Nov 2008 15:58:27 +0100
+diff -N -r -u a/debian/clvm.README.Debian b/debian/clvm.README.Debian
+--- a/debian/clvm.README.Debian	1970-01-01 01:00:00.000000000 +0100
++++ b/debian/clvm.README.Debian	2013-03-14 09:04:36.000000000 +0100
+@@ -0,0 +1,23 @@
++This is the cluster LVM daemon for LVM2.
++
++In conjunction with the Red Hat cluster infrastructure (cman & dlm) it
++will allow LVM volumes on shared storage to be managed from a central
++point. If you also want to share data you should also look at GFS.
++
++Only "normal" block devices may be shared. At present, snapshots and
++mirroring are not cluster aware. So, if you want to snapshot a volume
++is is VERY IMPORTANT that not only the snapshot device but also the origin
++device be activated on one node only.
++
++clvmd should be run on all nodes in the cluster, unless this is the case
++commands will fail as the integrity of the LVM metadata cannot be assured.
++
++In order to make normal lvm2 cluster-aware it is necessary to edit the
++configuration file /etc/lvm/lvm.conf as follows:
++
++in the global{} section:
++  locking_type = 3
++
++
++Patrick Caulfield <patrick@debian.org>
++24th December 2004
+diff -N -r -u a/debian/control b/debian/control
+--- a/debian/control	2013-01-02 11:11:23.000000000 +0100
++++ b/debian/control	2013-03-14 09:06:33.000000000 +0100
+@@ -35,6 +35,16 @@
+  volume groups can be allocated to logical volumes, which are accessed as
+  regular block devices.
+ 
++Package: clvm
++Priority: extra
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends}, lvm2 (= ${binary:Version}), lsb-base, corosync | cman
++Description: Cluster LVM Daemon for lvm2
++ This package provides the clustering interface for lvm2, when used with
++ Red Hat's "cman" or corosync based (eg Pacemaker) cluster infrastructure.
++ It allows logical volumes to be created on shared storage devices
++ (eg Fibre Channel, or iSCSI).
++
+ Package: libdevmapper-dev
+ Section: libdevel
+ Architecture: any
+@@ -168,3 +178,4 @@
+ Description: LVM2 libraries - development files
+  This package contains files needed to develop applications that use the
+  lvm2app library.
++
+diff -N -r -u a/debian/rules b/debian/rules
+--- a/debian/rules	2013-01-02 11:11:23.000000000 +0100
++++ b/debian/rules	2013-03-14 09:48:00.000000000 +0100
+@@ -77,7 +77,8 @@
+ 	$(CONFIGURE) \
+ 		--libdir=\$${exec_prefix}/lib/$(DEB_HOST_MULTIARCH) \
+ 		--with-optimisation="$(CFLAGS_OPT_DEB)" \
+-		--with-cluster=none \
++		--with-clvmd=cman,corosync \
++		--with-cluster=internal \
+ 		--with-thin=internal \
+ 		--with-device-uid=0 \
+ 		--with-device-gid=6 \
+@@ -160,6 +161,13 @@
+ 	dh_md5sums
+ 	dh_builddeb $(BUILDDEB_ARGS)
+ 
++install_clvm: export DH_OPTIONS = -pclvm
++install_clvm: DIR = $(BUILD_DIR)/install_deb
++install_clvm: $(STAMPS_DIR)/install_deb
++	+$(MAKE_SELF) install-base-prep INSTALL_DIR='$(DIR)'
++	dh_installinit --no-start -- start 63 2 3 4 5 . start 51 0 1 6 .
++	+$(MAKE_SELF) install-base
++
+ install_dmeventd: export DH_OPTIONS = -pdmeventd
+ install_dmeventd: DIR = $(BUILD_DIR)/install_deb
+ install_dmeventd: $(STAMPS_DIR)/install_deb install_liblvm2
+@@ -238,7 +246,7 @@
+ 	+$(MAKE_SELF) install-base
+ 
+ binary-indep:
+-binary-arch: $(addprefix install_,libdevmapper libdevmapper-udeb libdevmapper-event libdevmapper-dev dmsetup dmsetup-udeb dmeventd liblvm2 lvm2 lvm2-udeb)
++binary-arch: $(addprefix install_,libdevmapper libdevmapper-udeb libdevmapper-event libdevmapper-dev dmsetup dmsetup-udeb dmeventd liblvm2 lvm2 lvm2-udeb clvm)
+ 
+ binary: binary-indep binary-arch
+ 

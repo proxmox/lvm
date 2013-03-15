@@ -1,8 +1,8 @@
-Index: lvm2-2.02.88/doc/example.conf.in
+Index: LVM2.2.02.95/doc/example.conf.in
 ===================================================================
---- lvm2-2.02.88.orig/doc/example.conf.in	2012-03-09 09:53:24.000000000 +0100
-+++ lvm2-2.02.88/doc/example.conf.in	2012-03-09 09:53:30.000000000 +0100
-@@ -178,7 +178,7 @@
+--- LVM2.2.02.95.orig/doc/example.conf.in	2013-03-14 10:13:30.000000000 +0100
++++ LVM2.2.02.95/doc/example.conf.in	2013-03-14 10:13:39.000000000 +0100
+@@ -185,7 +185,7 @@
      # to 1, discards will only be issued if both the storage and kernel provide
      # support.
      # 1 enables; 0 disables.

@@ -1,27 +1,29 @@
-RELEASE=2.1
+RELEASE=3.0
 
 LVMVERSION=2.02.95
 DMVERSION=1.02.74
-DEBRELEASE=1
+DEBRELEASE=6
 # also update debian changelog patch
-PVERELEASE=${DEBRELEASE}pve2
+PVERELEASE=${DEBRELEASE}pve1
 PVEVER=${LVMVERSION}-${PVERELEASE}
 DMVER=${DMVERSION}-${PVERELEASE}
 
-LVMDIR=LVM2.${LVMVERSION}
-LVMSRC=LVM2.${LVMVERSION}.tgz
+LVMDIR=lvm2-${LVMVERSION}
+LVMSRC=lvm2_${LVMVERSION}.orig.tar.gz
 
 # NOTE: we use debian package definitions from debian testing
 # but use latest upstream sources
-LVMDEBSRC=lvm2_2.02.88-2.debian.tar.gz
+LVMDEBSRC=lvm2_${LVMVERSION}-${DEBRELEASE}.debian.tar.gz
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
 
 DEBS=							\
 	clvm_${PVEVER}_${ARCH}.deb			\
+	dmeventd_${DMVER}_${ARCH}.deb			\
 	dmsetup_${DMVER}_${ARCH}.deb			\
 	libdevmapper1.02.1_${DMVER}_${ARCH}.deb		\
+	libdevmapper-event1.02.1_${DMVER}_${ARCH}.deb		\
 	libdevmapper-dev_${DMVER}_${ARCH}.deb		\
 	liblvm2app2.2_${PVEVER}_${ARCH}.deb		\
 	liblvm2cmd2.02_${PVEVER}_${ARCH}.deb		\
@@ -39,14 +41,15 @@ deb ${DEBS}: ${LVMSRC} ${LVMDEBSRC}
 	rm -rf ${LVMDIR}
 	tar xf ${LVMSRC}
 	cd ${LVMDIR}; tar xvf ../${LVMDEBSRC}
-	cd ${LVMDIR}; mv debian/clvm.defaults debian/clvm.default
-	cd ${LVMDIR}; ln -s ../patchdir patches; quilt push -a
+	cp -v patchdir/*.patch ${LVMDIR}/debian/patches
+	cat patchdir/series >> ${LVMDIR}/debian/patches/series
 	cd ${LVMDIR}; dpkg-buildpackage -b -uc -us
 
 .PHONY: download
 download:
 	rm -f ${LVMSRC} ${LVMDEBSRC}
-	wget ftp://sources.redhat.com/pub/lvm2/${LVMSRC}
+	#wget ftp://sources.redhat.com/pub/lvm2/${LVMSRC}
+	wget http://ftp.de.debian.org/debian/pool/main/l/lvm2/${LVMSRC}
 	wget http://ftp.de.debian.org/debian/pool/main/l/lvm2/${LVMDEBSRC}
 
 .PHONY: upload
@@ -55,6 +58,7 @@ upload:
 	mkdir -p /pve/${RELEASE}/extra
 	rm -rf /pve/${RELEASE}/extra/clvm_*.deb
 	rm -rf /pve/${RELEASE}/extra/lvm2_*.deb
+	rm -rf /pve/${RELEASE}/extra/dmeventd_*.deb
 	rm -rf /pve/${RELEASE}/extra/dmsetup_*.deb
 	rm -rf /pve/${RELEASE}/extra/liblvm2*.deb
 	rm -rf /pve/${RELEASE}/extra/libdevmapper*.deb

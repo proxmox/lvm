@@ -1,31 +1,20 @@
-Index: new/debian/control
+Index: LVM2.2.02.95/debian/control
 ===================================================================
---- new.orig/debian/control	2011-12-09 06:57:00.000000000 +0100
-+++ new/debian/control	2011-12-09 07:04:40.000000000 +0100
+--- LVM2.2.02.95.orig/debian/control	2013-03-14 09:22:00.000000000 +0100
++++ LVM2.2.02.95/debian/control	2013-03-14 09:25:34.000000000 +0100
 @@ -1,9 +1,8 @@
  Source: lvm2
  Section: admin
  Priority: optional
 -Maintainer: Debian LVM Team <pkg-lvm-maintainers@lists.alioth.debian.org>
 -Uploaders: Bastian Blank <waldi@debian.org>
--Build-Depends: debhelper (>> 7), automake, libcman-dev (>> 2), libcorosync-dev, libdlm-dev (>> 2), libreadline-gplv2-dev, libselinux1-dev, libudev-dev, openais-dev, pkg-config
+-Build-Depends: dpkg-dev (>= 1.16.1~), debhelper (>= 8.1.3~), automake, libreadline-gplv2-dev, libselinux1-dev, libudev-dev, pkg-config
 +Maintainer: Proxmox Support Team <support@proxmox.com>
-+Build-Depends: debhelper (>> 7), automake, libcorosync-pve-dev, redhat-cluster-pve-dev, libreadline6-dev, libselinux1-dev, libudev-dev, libopenais-pve-dev, pkg-config, quilt
++Build-Depends: dpkg-dev (>= 1.16.1~), debhelper (>= 8.1.3~), automake, libreadline-gplv2-dev, libselinux1-dev, libudev-dev, pkg-config, libcorosync-pve-dev, redhat-cluster-pve-dev, libopenais-pve-dev, quilt
  Standards-Version: 3.9.1
  Homepage: http://sources.redhat.com/lvm2/
  Vcs-Svn: svn://svn.debian.org/pkg-lvm/lvm2/trunk/
-@@ -11,8 +10,8 @@
- 
- Package: lvm2
- Architecture: any
--Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base, dmsetup (>> 2:1.02.47), initscripts (>= 2.88dsf-13.3)
--Breaks: initramfs-tools (<< 0.99)
-+Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base, dmsetup (>> 2:1.02.47), initscripts (>= 2.88dsf-13.1)
-+#Breaks: initramfs-tools (<< 0.99)
- Description: Linux Logical Volume Manager
-  This is LVM2, the rewrite of The Linux Logical Volume Manager.  LVM
-  supports enterprise level volume management of disk and disk subsystems
-@@ -37,7 +36,7 @@
+@@ -38,7 +37,7 @@
  Package: clvm
  Priority: extra
  Architecture: any

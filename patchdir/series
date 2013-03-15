@@ -1,13 +1,10 @@
+re-enable-clvm.patch
 fix-build-dependencies.patch
-fix-clvm-init-script.patch
 fix-changelog.patch
 fix-fsadm-install.patch
 remove-udebs.patch
 #autodetect-locking-type.patch
 #suppress-error-messages.patch
-fix-lvm2-init-script-patch
-fix-libdevmapper-priority.patch
-remove-openais-clvm.patch
 enable-issue-discard.patch
-allow-new-symbols.patch
-fix-udev-rules.patch
+#allow-new-symbols.patch
+#fix-udev-rules.patch

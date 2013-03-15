@@ -1,22 +1,22 @@
-Index: lvm2-2.02.88/debian/lvm2.install
+Index: LVM2.2.02.95/debian/lvm2.install
 ===================================================================
---- lvm2-2.02.88.orig/debian/lvm2.install	2010-03-16 20:58:19.000000000 +0100
-+++ lvm2-2.02.88/debian/lvm2.install	2011-12-09 06:21:37.000000000 +0100
+--- LVM2.2.02.95.orig/debian/lvm2.install	2012-05-27 16:25:21.000000000 +0200
++++ LVM2.2.02.95/debian/lvm2.install	2013-03-14 09:57:51.000000000 +0100
 @@ -8,3 +8,5 @@
  usr/share/man/man8/pv*
  usr/share/man/man8/vg*
  usr/share/man/man5
 +usr/share/man/man8/fsadm.8
 +
-Index: lvm2-2.02.88/debian/rules
+Index: LVM2.2.02.95/debian/rules
 ===================================================================
---- lvm2-2.02.88.orig/debian/rules	2011-12-09 06:16:44.000000000 +0100
-+++ lvm2-2.02.88/debian/rules	2011-12-09 06:22:58.000000000 +0100
-@@ -77,6 +77,7 @@
+--- LVM2.2.02.95.orig/debian/rules	2013-03-14 09:50:50.000000000 +0100
++++ LVM2.2.02.95/debian/rules	2013-03-14 09:57:51.000000000 +0100
+@@ -85,6 +85,7 @@
  		--with-device-mode=0660 \
  		--with-default-run-dir=/run/lvm \
  		--with-default-locking-dir=/run/lock/lvm \
 +		--enable-fsadm \
  		--enable-applib \
  		--enable-cmdlib \
- 		--enable-pkgconfig \
+ 		--enable-dmeventd \

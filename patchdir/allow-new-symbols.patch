@@ -2,14 +2,6 @@ Index: LVM2.2.02.95/debian/rules
 ===================================================================
 --- LVM2.2.02.95.orig/debian/rules	2012-04-23 09:06:04.000000000 +0200
 +++ LVM2.2.02.95/debian/rules	2012-04-23 10:33:59.000000000 +0200
-@@ -82,6 +82,7 @@
- 		--enable-cmdlib \
- 		--enable-pkgconfig \
- 		--enable-readline \
-+		--enable-udev_rules \
- 		--enable-udev_sync
- 	touch $@
- 
 @@ -183,7 +184,7 @@
  	dh_makeshlibs \
  		--add-udeb 'libdevmapper$(DEVMAPPER_ABINAME)-udeb' \
