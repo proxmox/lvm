@@ -1,7 +1,7 @@
 Index: new/debian/clvm.defaults
 ===================================================================
 --- new.orig/debian/clvm.defaults	2013-03-03 12:46:47.000000000 +0100
-+++ new/debian/clvm.defaults	2013-03-29 07:01:05.000000000 +0100
++++ new/debian/clvm.defaults	2013-03-29 08:01:33.000000000 +0100
 @@ -1,9 +1,11 @@
  # Bourne shell compatible script, sourced by /etc/init.d/clvm to set
  # additional arguments for clvmd.
@@ -19,7 +19,7 @@ Index: new/debian/clvm.defaults
 Index: new/debian/clvm.init
 ===================================================================
 --- new.orig/debian/clvm.init	2013-03-03 12:46:47.000000000 +0100
-+++ new/debian/clvm.init	2013-03-29 07:09:13.000000000 +0100
++++ new/debian/clvm.init	2013-03-29 08:35:07.000000000 +0100
 @@ -2,12 +2,12 @@
  #
  ### BEGIN INIT INFO
@@ -37,7 +37,12 @@ Index: new/debian/clvm.init
  # Short-Description: start and stop the lvm cluster locking daemon
  ### END INIT INFO
  #
-@@ -32,18 +32,21 @@
+@@ -28,28 +28,31 @@
+ . /lib/lsb/init-functions
+ 
+ if [ ! -f /etc/cluster/cluster.conf ]; then
+-	log_failure_msg "clvmd: cluster not configured. Aborting."
++        log_action_msg "clvmd: cluster not configured"
  	exit 0
  fi
  
@@ -64,11 +69,29 @@ Index: new/debian/clvm.init
 +
  do_start()
  {
- 	start-stop-daemon --start --quiet --exec $DAEMON -- $DAEMON_OPTS || status="$?"
+-	start-stop-daemon --start --quiet --exec $DAEMON -- $DAEMON_OPTS || status="$?"
++	start-stop-daemon --start --quiet --exec $DAEMON -- $DAEMON_OPTS || return $?
+ 	# flush cache
+ 	vgscan > /dev/null 2>&1 
+-	return $status
++	return 0
+ }
+ 
+ do_activate()
+@@ -57,9 +60,6 @@
+ 	if [ -n "$LVM_VGS" ] ; then
+ 		log_action_msg  "Activating VGs $LVM_VGS"
+ 		vgchange -ayl $LVM_VGS || return $?
+-	else
+-		log_action_msg  "Activating all VGs"
+-		vgchange -ayl || return $?
+ 	fi
+ }
+ 
 Index: new/debian/rules
 ===================================================================
---- new.orig/debian/rules	2013-03-29 06:58:07.000000000 +0100
-+++ new/debian/rules	2013-03-29 07:12:46.000000000 +0100
+--- new.orig/debian/rules	2013-03-29 08:01:30.000000000 +0100
++++ new/debian/rules	2013-03-29 08:01:33.000000000 +0100
 @@ -77,7 +77,7 @@
  	$(CONFIGURE) \
  		--libdir=\$${exec_prefix}/lib/$(DEB_HOST_MULTIARCH) \
