@@ -2,9 +2,8 @@ RELEASE=3.0
 
 LVMVERSION=2.02.95
 DMVERSION=1.02.74
-DEBRELEASE=7
 # also update debian changelog patch
-PVERELEASE=${DEBRELEASE}pve1
+PVERELEASE=pve3
 PVEVER=${LVMVERSION}-${PVERELEASE}
 DMVER=${DMVERSION}-${PVERELEASE}
 
@@ -13,6 +12,7 @@ LVMSRC=lvm2_${LVMVERSION}.orig.tar.gz
 
 # NOTE: we use debian package definitions from debian testing
 # but use latest upstream sources
+DEBRELEASE=7
 LVMDEBSRC=lvm2_${LVMVERSION}-${DEBRELEASE}.debian.tar.gz
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
