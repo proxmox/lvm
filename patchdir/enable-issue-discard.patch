@@ -1,7 +1,7 @@
-Index: LVM2.2.02.95/doc/example.conf.in
+Index: new/doc/example.conf.in
 ===================================================================
---- LVM2.2.02.95.orig/doc/example.conf.in	2013-03-14 10:13:30.000000000 +0100
-+++ LVM2.2.02.95/doc/example.conf.in	2013-03-14 10:13:39.000000000 +0100
+--- new.orig/doc/example.conf.in	2012-03-02 22:49:43.000000000 +0100
++++ new/doc/example.conf.in	2013-03-29 06:58:15.000000000 +0100
 @@ -185,7 +185,7 @@
      # to 1, discards will only be issued if both the storage and kernel provide
      # support.

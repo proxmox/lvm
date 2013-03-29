@@ -1,0 +1,89 @@
+Index: new/debian/clvm.defaults
+===================================================================
+--- new.orig/debian/clvm.defaults	2013-03-03 12:46:47.000000000 +0100
++++ new/debian/clvm.defaults	2013-03-29 07:01:05.000000000 +0100
+@@ -1,9 +1,11 @@
+ # Bourne shell compatible script, sourced by /etc/init.d/clvm to set
+ # additional arguments for clvmd.
+ 
++# enable clmvd
++#START_CLVM=yes
++
+ # Startup timeout: 
+-CLVMDTIMEOUT=20
++#CLVMDTIMEOUT=30
+ 
+ # Volume groups to activate on startup:
+ # LVM_VGS="cluster_vg1 cluster_vg2"
+-
+Index: new/debian/clvm.init
+===================================================================
+--- new.orig/debian/clvm.init	2013-03-03 12:46:47.000000000 +0100
++++ new/debian/clvm.init	2013-03-29 07:09:13.000000000 +0100
+@@ -2,12 +2,12 @@
+ #
+ ### BEGIN INIT INFO
+ # Provides:          clvm
+-# Required-Start:    lvm2
+-# Required-Stop:     lvm2
++# Required-Start:    lvm2 cman
++# Required-Stop:     lvm2 cman
+ # Should-Start:      cman corosync openais
+ # Should-Stop:       cman corosync openais
+-# Default-Start:     S
+-# Default-Stop:      0 6
++# Default-Start:     2 3 4 5
++# Default-Stop:      0 1 6
+ # Short-Description: start and stop the lvm cluster locking daemon
+ ### END INIT INFO
+ #
+@@ -32,18 +32,21 @@
+ 	exit 0
+ fi
+ 
+-if ! cman_tool status >/dev/null 2>&1; then
+-	log_failure_msg "clvmd: cluster is not running. Aborting."
+-	exit 0
+-fi
+-
+-CLVMDTIMEOUT=20
++CLVMDTIMEOUT=30
++START_CLVM=no
+ 
+ # Read configuration variable file if it is present
+ [ -r /etc/default/$NAME ] && . /etc/default/$NAME
+ 
++[ "$START_CLVM" = "yes" ] || exit 0
++
+ DAEMON_OPTS="-T$CLVMDTIMEOUT"
+ 
++if ! cman_tool status >/dev/null 2>&1; then
++	log_failure_msg "clvmd: cluster is not running. Aborting."
++	exit 1
++fi
++
+ do_start()
+ {
+ 	start-stop-daemon --start --quiet --exec $DAEMON -- $DAEMON_OPTS || status="$?"
+Index: new/debian/rules
+===================================================================
+--- new.orig/debian/rules	2013-03-29 06:58:07.000000000 +0100
++++ new/debian/rules	2013-03-29 07:12:46.000000000 +0100
+@@ -77,7 +77,7 @@
+ 	$(CONFIGURE) \
+ 		--libdir=\$${exec_prefix}/lib/$(DEB_HOST_MULTIARCH) \
+ 		--with-optimisation="$(CFLAGS_OPT_DEB)" \
+-		--with-clvmd=cman,corosync,openais \
++		--with-clvmd=cman,corosync \
+ 		--with-cluster=internal \
+ 		--with-device-uid=0 \
+ 		--with-device-gid=6 \
+@@ -165,7 +165,7 @@
+ install_clvm: DIR = $(BUILD_DIR)/install_deb
+ install_clvm: $(STAMPS_DIR)/install_deb
+ 	+$(MAKE_SELF) install-base-prep INSTALL_DIR='$(DIR)'
+-	dh_installinit --no-start -- start 63 S . start 51 0 6 .
++	dh_installinit --no-start -- start 63 2 3 4 5 . start 51 0 1 6 .
+ 	+$(MAKE_SELF) install-base
+ 
+ install_dmeventd: export DH_OPTIONS = -pdmeventd

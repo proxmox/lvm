@@ -1,8 +1,8 @@
-Index: LVM2.2.02.95/debian/control
+Index: new/debian/control
 ===================================================================
---- LVM2.2.02.95.orig/debian/control	2013-03-14 09:50:50.000000000 +0100
-+++ LVM2.2.02.95/debian/control	2013-03-14 09:58:41.000000000 +0100
-@@ -20,20 +20,6 @@
+--- new.orig/debian/control	2013-03-29 06:54:51.000000000 +0100
++++ new/debian/control	2013-03-29 06:58:07.000000000 +0100
+@@ -21,20 +21,6 @@
   volume groups can be allocated to logical volumes, which are accessed as
   regular block devices.
  
@@ -23,7 +23,7 @@ Index: LVM2.2.02.95/debian/control
  Package: clvm
  Priority: extra
  Architecture: any
-@@ -79,20 +65,6 @@
+@@ -81,20 +67,6 @@
   device-mapper; it allows usage of the device-mapper through a clean,
   consistent interface (as opposed to through kernel ioctls).
  
@@ -44,7 +44,7 @@ Index: LVM2.2.02.95/debian/control
  Package: dmsetup
  Architecture: any
  Depends: ${shlibs:Depends}, ${misc:Depends}, util-linux (>> 2.16)
-@@ -101,20 +73,6 @@
+@@ -103,20 +75,6 @@
  Description: Linux Kernel Device Mapper userspace library
   The Linux Kernel Device Mapper is the LVM (Linux Logical Volume Management)
   Team's implementation of a minimalistic kernel-space driver that handles
@@ -65,10 +65,10 @@ Index: LVM2.2.02.95/debian/control
   volume management, while keeping knowledge of the underlying device layout
   in user-space.  This makes it useful for not only LVM, but EVMS, software
   raid, and other drivers that create "virtual" block devices.
-Index: LVM2.2.02.95/debian/rules
+Index: new/debian/rules
 ===================================================================
---- LVM2.2.02.95.orig/debian/rules	2013-03-14 09:57:51.000000000 +0100
-+++ LVM2.2.02.95/debian/rules	2013-03-14 10:01:13.000000000 +0100
+--- new.orig/debian/rules	2013-03-29 06:57:58.000000000 +0100
++++ new/debian/rules	2013-03-29 06:58:07.000000000 +0100
 @@ -66,7 +66,7 @@
  	cd $(DIR); autoreconf
  	touch $@
@@ -78,7 +78,7 @@ Index: LVM2.2.02.95/debian/rules
  
  $(STAMPS_DIR)/setup_deb: SOURCE_DIR = $(BUILD_DIR)/source
  $(STAMPS_DIR)/setup_deb: DIR = $(BUILD_DIR)/build_deb
-@@ -110,7 +110,7 @@
+@@ -109,7 +109,7 @@
  	touch $@
  
  build: build-arch build-indep
@@ -87,7 +87,7 @@ Index: LVM2.2.02.95/debian/rules
  build-indep:
  
  build_deb: $(STAMPS_DIR)/build_deb
-@@ -247,7 +247,7 @@
+@@ -246,7 +246,7 @@
  	+$(MAKE_SELF) install-base
  
  binary-indep:

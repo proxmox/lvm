@@ -1,4 +1,4 @@
-re-enable-clvm.patch
+#re-enable-clvm.patch
 fix-build-dependencies.patch
 fix-changelog.patch
 fix-fsadm-install.patch
@@ -8,3 +8,4 @@ remove-udebs.patch
 enable-issue-discard.patch
 #allow-new-symbols.patch
 #fix-udev-rules.patch
+fix-clvm-init.patch
