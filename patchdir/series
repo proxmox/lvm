@@ -1,7 +1,7 @@
 #re-enable-clvm.patch
 fix-build-dependencies.patch
 fix-changelog.patch
-fix-fsadm-install.patch
+#fix-fsadm-install.patch
 remove-udebs.patch
 #autodetect-locking-type.patch
 #suppress-error-messages.patch

@@ -1,7 +1,7 @@
-Index: new/debian/control
+Index: lvm2-2.02.98/debian/control
 ===================================================================
---- new.orig/debian/control	2013-03-29 07:17:35.000000000 +0100
-+++ new/debian/control	2013-03-29 07:17:50.000000000 +0100
+--- lvm2-2.02.98.orig/debian/control	2013-07-14 16:39:32.000000000 +0200
++++ lvm2-2.02.98/debian/control	2013-08-13 12:15:25.000000000 +0200
 @@ -1,9 +1,9 @@
  Source: lvm2
  Section: admin
@@ -10,11 +10,11 @@ Index: new/debian/control
 +Maintainer: Proxmox Support Team <support@proxmox.com>
  Uploaders: Bastian Blank <waldi@debian.org>
 -Build-Depends: dpkg-dev (>= 1.16.1~), debhelper (>= 8.1.3~), automake, libcman-dev (>> 2), libcorosync-dev, libdlm-dev (>> 2), libreadline-gplv2-dev, libselinux1-dev, libudev-dev, openais-dev, pkg-config
-+Build-Depends: dpkg-dev (>= 1.16.1~), debhelper (>= 8.1.3~), automake, libreadline-gplv2-dev, libselinux1-dev, libudev-dev, pkg-config, libcorosync-pve-dev, redhat-cluster-pve-dev, libopenais-pve-dev, quilt
++Build-Depends: dpkg-dev (>= 1.16.1~), debhelper (>= 8.1.3~), automake, libreadline6-dev, libselinux1-dev, libudev-dev, pkg-config, libcorosync-pve-dev, redhat-cluster-pve-dev, libopenais-pve-dev, quilt
  Standards-Version: 3.9.1
  Homepage: http://sources.redhat.com/lvm2/
  Vcs-Svn: svn://svn.debian.org/pkg-lvm/lvm2/trunk/
-@@ -38,8 +38,7 @@
+@@ -39,8 +39,7 @@
  Package: clvm
  Priority: extra
  Architecture: any
