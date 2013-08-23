@@ -16,19 +16,14 @@ DEBRELEASE=5
 LVMDEBSRC=lvm2_${LVMVERSION}-${DEBRELEASE}.debian.tar.gz
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+GITVERSION:=$(shell cat .git/refs/heads/master)
 
 
-DEBS=							\
-	clvm_${PVEVER}_${ARCH}.deb			\
-	dmeventd_${DMVER}_${ARCH}.deb			\
-	dmsetup_${DMVER}_${ARCH}.deb			\
-	libdevmapper1.02.1_${DMVER}_${ARCH}.deb		\
-	libdevmapper-event1.02.1_${DMVER}_${ARCH}.deb		\
-	libdevmapper-dev_${DMVER}_${ARCH}.deb		\
-	liblvm2app2.2_${PVEVER}_${ARCH}.deb		\
-	liblvm2cmd2.02_${PVEVER}_${ARCH}.deb		\
-	liblvm2-dev_${PVEVER}_${ARCH}.deb		\
-	lvm2_${PVEVER}_${ARCH}.deb
+DMPKGLIST:=dmeventd dmsetup libdevmapper1.02.1 libdevmapper-event1.02.1 libdevmapper-dev
+LVMPKGLIST:=clvm liblvm2app2.2 liblvm2cmd2.02 liblvm2-dev lvm2
+
+DEBS= 	$(foreach pkg, $(LVMPKGLIST), $(pkg)_${PVEVER}_${ARCH}.deb) \
+	$(foreach pkg, $(DMPKGLIST), $(pkg)_${DMVER}_${ARCH}.deb)
 
 all: deb
 
@@ -41,6 +36,8 @@ deb ${DEBS}: ${LVMSRC} ${LVMDEBSRC}
 	rm -rf ${LVMDIR}
 	tar xf ${LVMSRC}
 	cd ${LVMDIR}; tar xvf ../${LVMDEBSRC}
+	echo "git clone git://git.proxmox.com/git/lvm.git\\ngit checkout ${GITVERSION}" > ${LVMDIR}/debian/SOURCE
+	for pkg in $(LVMPKGLIST) $(DMPKGLIST); do echo "debian/SOURCE" >> $(LVMDIR)/debian/$${pkg}.docs; done
 	cp -v patchdir/*.patch ${LVMDIR}/debian/patches
 	cat patchdir/series >> ${LVMDIR}/debian/patches/series
 	cd ${LVMDIR}; dpkg-buildpackage -b -uc -us
