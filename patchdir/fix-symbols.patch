@@ -1,0 +1,36 @@
+Index: new/debian/libdevmapper1.02.1.symbols
+===================================================================
+--- new.orig/debian/libdevmapper1.02.1.symbols
++++ new/debian/libdevmapper1.02.1.symbols
+@@ -25,6 +25,7 @@ libdevmapper.so.1.02.1 libdevmapper1.02.
+  dm_config_find_node@Base 2:1.02.74
+  dm_config_find_str@Base 2:1.02.74
+  dm_config_find_str_allow_empty@Base 2:1.02.74
++ dm_config_flatten@Base 2:1.02.93
+  dm_config_from_string@Base 2:1.02.74
+  dm_config_get_custom@Base 2:1.02.74
+  dm_config_get_list@Base 2:1.02.74
+@@ -39,6 +40,7 @@ libdevmapper.so.1.02.1 libdevmapper1.02.
+  dm_config_parent_name@Base 2:1.02.74
+  dm_config_parse@Base 2:1.02.74
+  dm_config_remove_cascaded_tree@Base 2:1.02.74
++ dm_config_remove_node@Base 2:1.02.93
+  dm_config_set_custom@Base 2:1.02.74
+  dm_config_tree_find_bool@Base 2:1.02.74
+  dm_config_tree_find_float@Base 2:1.02.74
+@@ -144,6 +146,7 @@ libdevmapper.so.1.02.1 libdevmapper1.02.
+  dm_regex_create@Base 2:1.02.20
+  dm_regex_fingerprint@Base 2:1.02.63
+  dm_regex_match@Base 2:1.02.20
++ dm_report_compact_fields@Base 2:1.02.93
+  dm_report_field_int32@Base 2:1.02.27
+  dm_report_field_int@Base 2:1.02.27
+  dm_report_field_percent@Base 2:1.02.88
+@@ -259,6 +262,7 @@ libdevmapper.so.1.02.1 libdevmapper1.02.
+  dm_tree_node_set_read_ahead@Base 2:1.02.24
+  dm_tree_node_set_thin_external_origin@Base 2:1.02.77
+  dm_tree_node_set_thin_pool_discard@Base 2:1.02.77
++ dm_tree_node_set_thin_pool_error_if_no_space@Base 2:1.02.93
+  dm_tree_node_set_udev_flags@Base 2:1.02.74
+  dm_tree_node_size_changed@Base 2:1.02.36
+  dm_tree_preload_children@Base 2:1.02.20

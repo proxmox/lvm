@@ -1,0 +1,13 @@
+Index: new/debian/rules
+===================================================================
+--- new.orig/debian/rules
++++ new/debian/rules
+@@ -76,7 +76,7 @@ $(STAMPS_DIR)/setup_deb: $(STAMPS_DIR)/s
+ 		--with-usrlibdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) \
+ 		--with-optimisation="$(CFLAGS_OPT_DEB)" \
+ 		--with-cache=internal \
+-		--with-clvmd=cman,corosync,openais \
++		--with-clvmd=corosync \
+ 		--with-cluster=internal \
+ 		--with-device-uid=0 \
+ 		--with-device-gid=6 \

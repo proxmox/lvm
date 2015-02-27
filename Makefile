@@ -1,19 +1,19 @@
-RELEASE=3.0
+RELEASE=4.0
 
-LVMVERSION=2.02.98
-DMVERSION=1.02.77
+LVMVERSION=2.02.116
+DMVERSION=1.02.93
 # also update debian changelog patch
-PVERELEASE=pve4
+PVERELEASE=pve1
 PVEVER=${LVMVERSION}-${PVERELEASE}
 DMVER=${DMVERSION}-${PVERELEASE}
 
-LVMDIR=lvm2-${LVMVERSION}
-LVMSRC=lvm2_${LVMVERSION}.orig.tar.gz
+LVMDIR=LVM2.${LVMVERSION}
+#LVMSRC=lvm2_${LVMVERSION}.orig.tar.gz
+LVMSRC=${LVMDIR}.tgz
 
-# NOTE: we use debian package definitions from debian testing
+# NOTE: we use debian package definitions from debian jessie
 # but use latest upstream sources
-DEBRELEASE=5
-LVMDEBSRC=lvm2_${LVMVERSION}-${DEBRELEASE}.debian.tar.gz
+LVMDEBSRC=lvm2_2.02.111-2.debian.tar.xz
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 GITVERSION:=$(shell cat .git/refs/heads/master)
@@ -25,10 +25,10 @@ LVMPKGLIST:=clvm liblvm2app2.2 liblvm2cmd2.02 liblvm2-dev lvm2
 DEBS= 	$(foreach pkg, $(LVMPKGLIST), $(pkg)_${PVEVER}_${ARCH}.deb) \
 	$(foreach pkg, $(DMPKGLIST), $(pkg)_${DMVER}_${ARCH}.deb)
 
-all: deb
+all: ${DEBS}
 
 .PHONY: dinstall
-dinstall: deb
+dinstall: ${DEBS}
 	dpkg -i ${DEBS}
 
 .PHONY: deb
@@ -44,13 +44,14 @@ deb ${DEBS}: ${LVMSRC} ${LVMDEBSRC}
 
 .PHONY: download
 download:
-	rm -f ${LVMSRC} ${LVMDEBSRC}
-	#wget ftp://sources.redhat.com/pub/lvm2/${LVMSRC}
-	wget http://ftp.de.debian.org/debian/pool/main/l/lvm2/${LVMSRC}
-	wget http://ftp.de.debian.org/debian/pool/main/l/lvm2/${LVMDEBSRC}
+	rm -f ${LVMSRC}
+	wget ftp://sources.redhat.com/pub/lvm2/${LVMSRC}
+	#rm -f ${LVMSRC} ${LVMDEBSRC}
+	#wget http://ftp.de.debian.org/debian/pool/main/l/lvm2/${LVMSRC}
+	#wget http://ftp.de.debian.org/debian/pool/main/l/lvm2/${LVMDEBSRC}
 
 .PHONY: upload
-upload:
+upload: ${DEBS}
 	umount /pve/${RELEASE}; mount /pve/${RELEASE} -o rw 
 	mkdir -p /pve/${RELEASE}/extra
 	rm -rf /pve/${RELEASE}/extra/clvm_*.deb
@@ -67,3 +68,4 @@ upload:
 .PHONY: clean
 clean:
 	rm -rf *~ *_${ARCH}.deb *_${ARCH}.udeb *.changes *.dsc ${LVMDIR}
+	find . -name '*~' -exec rm {} ';'
