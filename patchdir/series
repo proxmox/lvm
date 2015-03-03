@@ -9,6 +9,8 @@
 ##allow-new-symbols.patch
 ##fix-udev-rules.patch
 #fix-clvm-init.patch
+use-service-for-clvm.patch
+fix-clvm-service-configuration-dir.patch
 jessie-remove-udebs.patch
 configure-with-corosync2.patch
 fix-changelog.patch
