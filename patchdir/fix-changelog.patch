@@ -2,7 +2,13 @@ Index: new/debian/changelog
 ===================================================================
 --- new.orig/debian/changelog
 +++ new/debian/changelog
-@@ -1,3 +1,9 @@
+@@ -1,3 +1,15 @@
++lvm2 (2.02.116-pve2) unstable; urgency=medium
++
++  * Insert a scan filter that zfs zvols will not be scanned.
++
++ -- Proxmox Support Team <support@proxmox.com>  Fri, 13 Nov 2015 11:04:41 +0100
++
 +lvm2 (2.02.116-pve1) unstable; urgency=medium
 +
 +  * New upstream version.
