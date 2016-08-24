@@ -1,8 +1,6 @@
-Index: new/doc/example.conf.in
-===================================================================
---- new.orig/doc/example.conf.in	2012-03-02 22:49:43.000000000 +0100
-+++ new/doc/example.conf.in	2013-03-29 06:58:15.000000000 +0100
-@@ -185,7 +185,7 @@
+--- a/conf/example.conf.in
++++ b/conf/example.conf.in
+@@ -290,7 +290,7 @@
      # to 1, discards will only be issued if both the storage and kernel provide
      # support.
      # 1 enables; 0 disables.

@@ -5,7 +5,6 @@
 #remove-udebs.patch
 ##autodetect-locking-type.patch
 ##suppress-error-messages.patch
-#enable-issue-discard.patch
 ##allow-new-symbols.patch
 ##fix-udev-rules.patch
 #fix-clvm-init.patch
@@ -16,3 +15,4 @@ configure-with-corosync2.patch
 fix-changelog.patch
 fix-symbols.patch
 filter_zvols_and_pve_vg_in_lvm.conf.patch
+enable-issue-discard.patch
