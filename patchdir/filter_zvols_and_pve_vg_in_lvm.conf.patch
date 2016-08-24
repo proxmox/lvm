@@ -1,13 +1,11 @@
-Index: new/conf/example.conf.in
-===================================================================
---- new.orig/conf/example.conf.in
-+++ new/conf/example.conf.in
-@@ -118,6 +118,9 @@ devices {
+--- a/conf/example.conf.in
++++ b/conf/example.conf.in
+@@ -118,6 +118,9 @@
      # If lvmetad is used, then see "A note about device filtering while
      # lvmetad is used" comment that is attached to global/use_lvmetad setting.
  
 +    # Do not scan ZFS zvols (to avoid problems on ZFS zvols snapshots)
-+    filter = [ "r|/dev/zd*|" ]
++    global_filter = [ "r|/dev/zd.*|", "r|/dev/mapper/pve-.*|" ]
 +
      # By default we accept every block device:
      # filter = [ "a/.*/" ]
