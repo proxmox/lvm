@@ -1,5 +1,3 @@
-RELEASE=4.0
-
 LVMVERSION=2.02.116
 DMVERSION=1.02.93
 # also update debian changelog patch
@@ -52,18 +50,7 @@ download:
 
 .PHONY: upload
 upload: ${DEBS}
-	umount /pve/${RELEASE}; mount /pve/${RELEASE} -o rw 
-	mkdir -p /pve/${RELEASE}/extra
-	rm -rf /pve/${RELEASE}/extra/clvm_*.deb
-	rm -rf /pve/${RELEASE}/extra/lvm2_*.deb
-	rm -rf /pve/${RELEASE}/extra/dmeventd_*.deb
-	rm -rf /pve/${RELEASE}/extra/dmsetup_*.deb
-	rm -rf /pve/${RELEASE}/extra/liblvm2*.deb
-	rm -rf /pve/${RELEASE}/extra/libdevmapper*.deb
-	rm -rf /pve/${RELEASE}/extra/Packages*
-	cp ${DEBS} /pve/${RELEASE}/extra
-	cd /pve/${RELEASE}/extra; dpkg-scanpackages . /dev/null > Packages; gzip -9c Packages > Packages.gz
-	umount /pve/${RELEASE}; mount /pve/${RELEASE} -o ro
+	tar cf - ${DEBS} | ssh repoman@repo.proxmox.com upload
 
 .PHONY: clean
 clean:
