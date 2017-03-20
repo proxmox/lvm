@@ -33,6 +33,8 @@ ${DEBS}: ${LVMSRC}
 	for pkg in $(LVMPKGLIST) $(DMPKGLIST); do echo "debian/SOURCE" >> $(LVMDIR)/debian/$${pkg}.docs; done
 	cp -v patchdir/*.patch ${LVMDIR}/debian/patches
 	cat patchdir/series >> ${LVMDIR}/debian/patches/series
+	mv ${LVMDIR}/debian/changelog ${LVMDIR}/debian/changelog.org
+	cat changelog.Debian ${LVMDIR}/debian/changelog.org > ${LVMDIR}/debian/changelog
 	cd ${LVMDIR}; dpkg-buildpackage -b -uc -us
 
 .PHONY: download
