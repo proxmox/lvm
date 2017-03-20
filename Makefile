@@ -25,7 +25,8 @@ dinstall: ${DEBS}
 	dpkg -i ${DEBS}
 
 .PHONY: deb
-deb ${DEBS}: ${LVMSRC}
+deb: ${DEBS}
+${DEBS}: ${LVMSRC}
 	rm -rf ${LVMDIR}
 	tar xf ${LVMSRC}
 	echo "git clone git://git.proxmox.com/git/lvm.git\\ngit checkout ${GITVERSION}" > ${LVMDIR}/debian/SOURCE
