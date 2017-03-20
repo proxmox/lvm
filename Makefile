@@ -49,5 +49,5 @@ upload: ${DEBS}
 
 .PHONY: clean
 clean:
-	rm -rf *~ *_${ARCH}.deb *_${ARCH}.udeb *.changes *.dsc ${LVMDIR}
+	rm -rf *~ *_${ARCH}.deb *_${ARCH}.udeb *.changes *.dsc *.buildinfo ${LVMDIR}
 	find . -name '*~' -exec rm {} ';'
