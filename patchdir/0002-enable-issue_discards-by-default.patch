@@ -1,0 +1,29 @@
+From 1462604ed3fb71fd4540ccfb034fccabce9e585b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
+Date: Fri, 17 Mar 2017 11:59:54 +0100
+Subject: [PATCH 2/2] enable issue_discards by default
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Fabian Grünbichler <f.gruenbichler@proxmox.com>
+---
+ conf/example.conf.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/conf/example.conf.in b/conf/example.conf.in
+index 1a8a67b..56b0795 100644
+--- a/conf/example.conf.in
++++ b/conf/example.conf.in
+@@ -301,7 +301,7 @@ devices {
+ 	# benefit from discards, but SSDs and thinly provisioned LUNs
+ 	# generally do. If enabled, discards will only be issued if both the
+ 	# storage and kernel provide support.
+-	issue_discards = 0
++	issue_discards = 1
+ 
+ 	# Configuration option devices/allow_changes_with_duplicate_pvs.
+ 	# Allow VG modification while a PV appears on multiple devices.
+-- 
+2.1.4
+

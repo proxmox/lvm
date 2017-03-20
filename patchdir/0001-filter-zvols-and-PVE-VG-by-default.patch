@@ -1,0 +1,30 @@
+From 203694c2e0a77a70b62faf0df5646181cfca8603 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
+Date: Fri, 17 Mar 2017 11:59:25 +0100
+Subject: [PATCH 1/2] filter zvols and PVE VG by default
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Fabian Grünbichler <f.gruenbichler@proxmox.com>
+---
+ conf/example.conf.in | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/conf/example.conf.in b/conf/example.conf.in
+index 736b4bd..1a8a67b 100644
+--- a/conf/example.conf.in
++++ b/conf/example.conf.in
+@@ -125,6 +125,9 @@ devices {
+ 	# Run vgscan after changing the filter to regenerate the cache.
+ 	# See the use_lvmetad comment for a special case regarding filters.
+ 	# 
++	# Do not scan ZFS zvols (to avoid problems on ZFS zvols snapshots)
++	global_filter = [ "r|/dev/zd.*|", "r|/dev/mapper/pve-.*|" ]
++
+ 	# Example
+ 	# Accept every block device:
+ 	# filter = [ "a|.*/|" ]
+-- 
+2.1.4
+
