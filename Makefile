@@ -7,7 +7,7 @@ PVELVMVER=${LVMVERSION}-${PVERELEASE}
 PVEDMVER=${DMVERSION}-${PVERELEASE}
 
 LVMDIR=LVM2.${LVMVERSION}
-LVMSRC=${LVMDIR}.tgz
+LVMSRC=${LVMDIR}.tar
 
 ARCH:=$(shell dpkg-architecture -qDEB_HOST_ARCH)
 GITVERSION:=$(shell cat .git/refs/heads/master)
