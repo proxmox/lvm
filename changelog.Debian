@@ -1,3 +1,11 @@
+lvm2 (2.02.168-pve2) unstable; urgency=medium
+
+  * Update to 2.02.168-2 packaging
+
+  * Really apply PVE LVM config changes
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 19 Apr 2017 11:13:45 +0200
+
 lvm2 (2.02.168-pve1) unstable; urgency=medium
 
   * Refresh PVE patches on top of Debian Stretch package
