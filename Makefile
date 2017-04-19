@@ -31,8 +31,10 @@ ${DEBS}: ${LVMSRC}
 	tar xf ${LVMSRC}
 	echo "git clone git://git.proxmox.com/git/lvm.git\\ngit checkout ${GITVERSION}" > ${LVMDIR}/debian/SOURCE
 	for pkg in $(LVMPKGLIST) $(DMPKGLIST); do echo "debian/SOURCE" >> $(LVMDIR)/debian/$${pkg}.docs; done
-	cp -v patchdir/*.patch ${LVMDIR}/debian/patches
-	cat patchdir/series >> ${LVMDIR}/debian/patches/series
+	# Note: the patches in debian/patches are not used by the build process, so apply them manually here!
+	cd ${LVMDIR}; ln -s ../patchdir patches
+	cd ${LVMDIR}; quilt push -a
+	cd ${LVMDIR}; rm -rf .pc ./patches
 	mv ${LVMDIR}/debian/changelog ${LVMDIR}/debian/changelog.org
 	cat changelog.Debian ${LVMDIR}/debian/changelog.org > ${LVMDIR}/debian/changelog
 	cd ${LVMDIR}; dpkg-buildpackage -b -uc -us
