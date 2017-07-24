@@ -1,0 +1,12 @@
+Index: LVM2.2.02.168/debian/rules
+===================================================================
+--- LVM2.2.02.168.orig/debian/rules
++++ LVM2.2.02.168/debian/rules
+@@ -92,6 +92,7 @@ $(STAMPS_DIR)/setup_deb: $(STAMPS_DIR)/s
+ 		--enable-cmirrord \
+ 		--enable-dmeventd \
+ 		--enable-lvmetad \
++		--disable-use-lvmetad \
+ 		--enable-lvmpolld \
+ 		--enable-pkgconfig \
+ 		--enable-readline \

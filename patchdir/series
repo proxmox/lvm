@@ -1,2 +1,3 @@
 0001-filter-zvols-and-PVE-VG-by-default.patch
 0002-enable-issue_discards-by-default.patch
+0003-disable-use-lvmetad.patch
