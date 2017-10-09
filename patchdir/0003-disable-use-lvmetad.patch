@@ -1,8 +1,48 @@
-Index: LVM2.2.02.168/debian/rules
-===================================================================
---- LVM2.2.02.168.orig/debian/rules
-+++ LVM2.2.02.168/debian/rules
-@@ -92,6 +92,7 @@ $(STAMPS_DIR)/setup_deb: $(STAMPS_DIR)/s
+From 09e094641e59ca3ef8f1de45f47a15c07e421e1a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
+Date: Mon, 9 Oct 2017 12:34:14 +0200
+Subject: [PATCH 3/6] disable-use-lvmetad
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Fabian Grünbichler <f.gruenbichler@proxmox.com>
+---
+ debian/lvm2.postinst | 15 +++++++++++++++
+ debian/rules         |  3 ++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/debian/lvm2.postinst b/debian/lvm2.postinst
+index 563162c..d62d30b 100644
+--- a/debian/lvm2.postinst
++++ b/debian/lvm2.postinst
+@@ -15,6 +15,21 @@ case "$1" in
+             deb-systemd-helper purge lvm2-activation-early.service lvm2-activation.service >/dev/null
+             deb-systemd-helper unmask lvm2-activation-early.service lvm2-activation.service >/dev/null
+         fi
++
++        # disable unless lvm config says otherwise
++        use_lvmetad="$(lvmconfig global/use_lvmetad)"
++        if [ "$use_lvmetad" = "use_lvmetad=0" ]; then
++            echo "Masking and stopping lvmetad service units, '$use_lvmetad' is set"
++            systemctl mask lvm2-lvmetad.service
++            systemctl stop lvm2-lvmetad.service
++            systemctl mask lvm2-lvmetad.socket
++            systemctl stop lvm2-lvmetad.socket
++        else
++            echo "Unmasking and starting lvmetad service units, '$use_lvmetad' is set"
++            systemctl unmask lvm2-lvmetad.service
++            systemctl unmask lvm2-lvmetad.socket
++            systemctl start lvm2-lvmetad.socket
++        fi
+     ;;
+ esac
+ 
+diff --git a/debian/rules b/debian/rules
+index f4e16c4..eaafe6c 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -92,6 +92,7 @@ $(STAMPS_DIR)/setup_deb: $(STAMPS_DIR)/source
  		--enable-cmirrord \
  		--enable-dmeventd \
  		--enable-lvmetad \
@@ -10,3 +50,17 @@ Index: LVM2.2.02.168/debian/rules
  		--enable-lvmpolld \
  		--enable-pkgconfig \
  		--enable-readline \
+@@ -280,9 +281,9 @@ install_lvm2: $(STAMPS_DIR)/install_deb install_libdevmapper install_liblvm2
+ 	dh_installinit --restart-after-upgrade --name lvm2-lvmpolld
+ 	dh_systemd_enable \
+ 		lvm2-monitor.service \
+-		lvm2-lvmetad.socket \
+ 		lvm2-lvmpolld.socket
+ 	dh_systemd_enable --no-enable \
++		lvm2-lvmetad.socket \
+ 		lvm2-lvmetad.service \
+ 		lvm2-lvmpolld.service
+ 	dh_systemd_start --restart-after-upgrade \
+-- 
+2.14.1
+

@@ -1,7 +1,7 @@
-From 203694c2e0a77a70b62faf0df5646181cfca8603 Mon Sep 17 00:00:00 2001
+From 9133a3b85cc8105dd37b266a8223a44d1c881318 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
 Date: Fri, 17 Mar 2017 11:59:25 +0100
-Subject: [PATCH 1/2] filter zvols and PVE VG by default
+Subject: [PATCH 1/4] filter zvols and PVE VG by default
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -26,5 +26,5 @@ index 736b4bd..1a8a67b 100644
  	# Accept every block device:
  	# filter = [ "a|.*/|" ]
 -- 
-2.1.4
+2.14.1
 
