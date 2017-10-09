@@ -6,6 +6,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=826570
+
 Signed-off-by: Fabian Grünbichler <f.gruenbichler@proxmox.com>
 ---
  debian/lvm2.postinst | 15 +++++++++++++++
