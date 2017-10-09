@@ -1,7 +1,10 @@
-From a781b1c1788461595f382918bb1fc210d248d444 Mon Sep 17 00:00:00 2001
+From e47ceabaa07f5705a80f66f98f2639b562b90793 Mon Sep 17 00:00:00 2001
 From: Thomas Lamprecht <t.lamprecht@proxmox.com>
 Date: Thu, 5 Oct 2017 12:52:15 +0200
-Subject: [PATCH] dmeventd: ensure systemd service gets stopped on shutdown
+Subject: [PATCH 5/6] dmeventd: ensure systemd service gets stopped on shutdown
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Add these for dmeventd systemd unit (dm-event.service):
 
@@ -24,6 +27,7 @@ Ref: https://www.redhat.com/archives/lvm-devel/2017-October/msg00000.html
 cherry picked from commit a781b1c1788461595f382918bb1fc210d248d444
 
 Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Signed-off-by: Fabian Grünbichler <f.gruenbichler@proxmox.com>
 ---
  scripts/dm_event_systemd_red_hat.service.in | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
@@ -43,4 +47,5 @@ index 7c607aa..4924d39 100644
  
  [Service]
 -- 
-2.9.3
+2.14.1
+

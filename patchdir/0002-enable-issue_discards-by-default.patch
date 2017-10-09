@@ -1,7 +1,7 @@
-From d3cd068c29b356b1b21a013e039d017d7d714f0e Mon Sep 17 00:00:00 2001
+From 829981232ec0ec4e8b2cae15d3fb940907feb28f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
 Date: Fri, 17 Mar 2017 11:59:54 +0100
-Subject: [PATCH 2/4] enable issue_discards by default
+Subject: [PATCH 2/6] enable issue_discards by default
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
