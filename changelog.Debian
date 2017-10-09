@@ -1,3 +1,11 @@
+lvm2 (2.02.168-pve5) unstable; urgency=medium
+
+  * more complete disabling of lvmetad
+
+  * don't attempt to enable unused init scripts
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 9 Oct 2017 12:53:10 +0200
+
 lvm2 (2.02.168-pve4) unstable; urgency=medium
 
   * cherry-pick fixes for dmeventd shutdown behaviour
