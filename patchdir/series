@@ -3,3 +3,4 @@
 0003-disable-use-lvmetad.patch
 0004-dmeventd-schedule-exit-on-break.patch
 0005-dmeventd-ensure-service-gets-stopped-on-shutdown.patch
+0006-disable-init-scripts.patch
