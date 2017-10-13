@@ -1,4 +1,4 @@
-From e47ceabaa07f5705a80f66f98f2639b562b90793 Mon Sep 17 00:00:00 2001
+From ddd1d2fcb6a78eb4877522481d1d8cedb7c64962 Mon Sep 17 00:00:00 2001
 From: Thomas Lamprecht <t.lamprecht@proxmox.com>
 Date: Thu, 5 Oct 2017 12:52:15 +0200
 Subject: [PATCH 5/6] dmeventd: ensure systemd service gets stopped on shutdown

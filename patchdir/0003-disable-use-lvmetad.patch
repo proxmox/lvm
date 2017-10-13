@@ -1,4 +1,4 @@
-From 09e094641e59ca3ef8f1de45f47a15c07e421e1a Mon Sep 17 00:00:00 2001
+From 3a466b7ee0651b11465b4f5436093c929001626c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
 Date: Mon, 9 Oct 2017 12:34:14 +0200
 Subject: [PATCH 3/6] disable-use-lvmetad
@@ -10,36 +10,30 @@ see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=826570
 
 Signed-off-by: Fabian Grünbichler <f.gruenbichler@proxmox.com>
 ---
- debian/lvm2.postinst | 15 +++++++++++++++
+ debian/lvm2.postinst | 11 +++++++++++
  debian/rules         |  3 ++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/debian/lvm2.postinst b/debian/lvm2.postinst
-index 563162c..d62d30b 100644
+index 563162c..5f69d38 100644
 --- a/debian/lvm2.postinst
 +++ b/debian/lvm2.postinst
-@@ -15,6 +15,21 @@ case "$1" in
-             deb-systemd-helper purge lvm2-activation-early.service lvm2-activation.service >/dev/null
-             deb-systemd-helper unmask lvm2-activation-early.service lvm2-activation.service >/dev/null
-         fi
-+
-+        # disable unless lvm config says otherwise
-+        use_lvmetad="$(lvmconfig global/use_lvmetad)"
-+        if [ "$use_lvmetad" = "use_lvmetad=0" ]; then
-+            echo "Masking and stopping lvmetad service units, '$use_lvmetad' is set"
-+            systemctl mask lvm2-lvmetad.service
-+            systemctl stop lvm2-lvmetad.service
-+            systemctl mask lvm2-lvmetad.socket
-+            systemctl stop lvm2-lvmetad.socket
-+        else
-+            echo "Unmasking and starting lvmetad service units, '$use_lvmetad' is set"
-+            systemctl unmask lvm2-lvmetad.service
-+            systemctl unmask lvm2-lvmetad.socket
-+            systemctl start lvm2-lvmetad.socket
-+        fi
-     ;;
- esac
+@@ -20,4 +20,15 @@ esac
  
+ #DEBHELPER#
+ 
++case "$1" in
++    configure)
++        # disable unless lvm config says otherwise
++        use_lvmetad="$(lvmconfig --type default global/use_lvmetad)"
++        if [ "$use_lvmetad" = "use_lvmetad=0" ]; then
++            echo "Stopping lvmetad, '$use_lvmetad' is set"
++            systemctl stop lvm2-lvmetad.service
++        fi
++    ;;
++esac
++
+ exit 0
 diff --git a/debian/rules b/debian/rules
 index f4e16c4..eaafe6c 100755
 --- a/debian/rules

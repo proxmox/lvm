@@ -1,4 +1,4 @@
-From 0a3eb4ba7dc2554e71319e95ad61bd8611cc0c59 Mon Sep 17 00:00:00 2001
+From 39b527272533a3138ffc7f4988235176eb889d03 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
 Date: Mon, 9 Oct 2017 13:05:31 +0200
 Subject: [PATCH 6/6] disable init scripts

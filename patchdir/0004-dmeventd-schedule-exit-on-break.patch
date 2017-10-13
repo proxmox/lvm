@@ -1,4 +1,4 @@
-From 2d388d787ea9100da535dd5f7e57a6802f4567ba Mon Sep 17 00:00:00 2001
+From 22e1be956fdf197dcfac4ede68b5f8f09aab4a04 Mon Sep 17 00:00:00 2001
 From: Zdenek Kabelac <zkabelac@redhat.com>
 Date: Wed, 4 Oct 2017 13:58:21 +0200
 Subject: [PATCH 4/6] dmeventd: schedule exit on break
