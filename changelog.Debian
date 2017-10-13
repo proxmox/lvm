@@ -1,3 +1,11 @@
+lvm2 (2.02.168-pve6) unstable; urgency=medium
+
+  * update lvmetad disabling to cause less log spam
+
+  * update lvmetad disabling to handle missing config key
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 13 Oct 2017 09:54:53 +0200
+
 lvm2 (2.02.168-pve5) unstable; urgency=medium
 
   * more complete disabling of lvmetad
