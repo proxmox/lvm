@@ -43,7 +43,7 @@ ${DEBS}: ${LVMSRC}
 download:
 	rm -f ${LVMSRC}
 	rm -rf ${LVMDIR}
-	git clone -b ${DEBTAG} https://anonscm.debian.org/cgit/pkg-lvm/lvm2.git/ ${LVMDIR}
+	git clone -b ${DEBTAG} https://salsa.debian.org/lvm-team/lvm2.git ${LVMDIR}
 	tar cf ${LVMSRC} --exclude ".git" ${LVMDIR}
 
 
