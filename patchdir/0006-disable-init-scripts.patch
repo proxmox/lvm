@@ -15,16 +15,16 @@ diff --git a/debian/rules b/debian/rules
 index eaafe6c..44a7fae 100755
 --- a/debian/rules
 +++ b/debian/rules
-@@ -276,9 +276,6 @@ install_lvm2: export DH_OPTIONS = -plvm2
- install_lvm2: DIR = $(BUILD_DIR)/install_deb
- install_lvm2: $(STAMPS_DIR)/install_deb install_libdevmapper install_liblvm2
- 	+$(MAKE_SELF) install-base-prep INSTALL_DIR='$(DIR)'
--	dh_installinit --no-start
--	dh_installinit --restart-after-upgrade --name lvm2-lvmetad
--	dh_installinit --restart-after-upgrade --name lvm2-lvmpolld
- 	dh_systemd_enable \
- 		lvm2-monitor.service \
- 		lvm2-lvmpolld.socket
+@@ -126,10 +126,6 @@
+ 	dh_installchangelogs -plvm2 WHATS_NEW
+ 	dh_installchangelogs --remaining-packages
+ 
+-override_dh_installinit:
+-	dh_installinit -plvm2 --no-start
+-	dh_installinit -plvm2 --restart-after-upgrade --name lvm2-lvmpolld
+-
+ override_dh_makeshlibs:
+ 	dh_makeshlibs -plibdevmapper$(DEVMAPPER_ABINAME) \
+ 		--add-udeb 'libdevmapper$(DEVMAPPER_ABINAME)-udeb' \
 -- 
 2.14.1
-

@@ -1,6 +1,3 @@
 0001-filter-zvols-and-PVE-VG-by-default.patch
 0002-enable-issue_discards-by-default.patch
-0003-disable-use-lvmetad.patch
-0004-dmeventd-schedule-exit-on-break.patch
-0005-dmeventd-ensure-systemd-service-gets-stopped-on-shut.patch
 0006-disable-init-scripts.patch
