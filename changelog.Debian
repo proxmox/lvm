@@ -1,43 +1,7 @@
-lvm2 (2.02.168-pve6) unstable; urgency=medium
+lvm2 (2.03.02-pve1) pve; urgency=medium
 
-  * update lvmetad disabling to cause less log spam
+  * Refresh PVE patches on top of Debian Buster package
 
-  * update lvmetad disabling to handle missing config key
+  * Rebuild for Proxmox VE 6.0
 
- -- Proxmox Support Team <support@proxmox.com>  Fri, 13 Oct 2017 09:54:53 +0200
-
-lvm2 (2.02.168-pve5) unstable; urgency=medium
-
-  * more complete disabling of lvmetad
-
-  * don't attempt to enable unused init scripts
-
- -- Proxmox Support Team <support@proxmox.com>  Mon, 9 Oct 2017 12:53:10 +0200
-
-lvm2 (2.02.168-pve4) unstable; urgency=medium
-
-  * cherry-pick fixes for dmeventd shutdown behaviour
-
- -- Proxmox Support Team <support@proxmox.com>  Fri, 6 Oct 2017 08:04:34 +0200
-
-lvm2 (2.02.168-pve3) unstable; urgency=medium
-
-  * change the use_lvmetad default back to off
-
- -- Proxmox Support Team <support@proxmox.com>  Mon, 24 Jul 2017 09:28:24 +0200
-
-lvm2 (2.02.168-pve2) unstable; urgency=medium
-
-  * Update to 2.02.168-2 packaging
-
-  * Really apply PVE LVM config changes
-
- -- Proxmox Support Team <support@proxmox.com>  Wed, 19 Apr 2017 11:13:45 +0200
-
-lvm2 (2.02.168-pve1) unstable; urgency=medium
-
-  * Refresh PVE patches on top of Debian Stretch package
-
-  * Rebuild for PVE 5.0
-
- -- Proxmox Support Team <support@proxmox.com>  Mon, 20 Mar 2017 09:56:27 +0100
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 24 Jun 2019 11:24:34 +0200
