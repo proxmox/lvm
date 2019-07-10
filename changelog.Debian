@@ -1,3 +1,9 @@
+lvm2 (2.03.02-pve2) pve; urgency=medium
+
+  * udev: do not overwrite ID_MODEL in 69-dm-lvm-metad.rules
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 10 Jul 2019 10:36:34 +0200
+
 lvm2 (2.03.02-pve1) pve; urgency=medium
 
   * Refresh PVE patches on top of Debian Buster package
