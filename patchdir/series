@@ -1,3 +1,4 @@
 0001-filter-zvols-and-PVE-VG-by-default.patch
 0002-enable-issue_discards-by-default.patch
 0006-disable-init-scripts.patch
+udev-do-not-overwrite-ID_MODEL-in-69-dm-lvm-metad.rules.patch

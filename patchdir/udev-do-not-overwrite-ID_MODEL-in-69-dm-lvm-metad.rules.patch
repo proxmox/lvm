@@ -1,0 +1,181 @@
+Return-Path: <lvm-devel-bounces@redhat.com>
+Delivered-To: t.lamprecht@proxmox.com
+Received: from ronja.mits.lan
+	by ronja.mits.lan (Dovecot) with LMTP id idy8JP7dHV0mKgAAxxbTJA
+	for <t.lamprecht@proxmox.com>; Thu, 04 Jul 2019 13:07:42 +0200
+Received: from proxmox-new.maurer-it.com (unknown [192.168.2.33])
+	by ronja.mits.lan (Postfix) with ESMTPS id 8FA58F62263
+	for <t.lamprecht@proxmox.com>; Thu,  4 Jul 2019 13:07:42 +0200 (CEST)
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 879AB44B52
+	for <t.lamprecht@proxmox.com>; Thu,  4 Jul 2019 13:07:42 +0200 (CEST)
+Received-SPF: pass (redhat.com: Sender is authorized to use 'lvm-devel-bounces@redhat.com' in 'mfrom' identity (mechanism 'include:_spf1.redhat.com' matched)) receiver=proxmox-new.maurer-it.com; identity=mailfrom; envelope-from="lvm-devel-bounces@redhat.com"; helo=mx1.redhat.com; client-ip=209.132.183.28
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by proxmox-new.maurer-it.com (Proxmox) with ESMTPS id 0DE964243E
+	for <t.lamprecht@proxmox.com>; Thu,  4 Jul 2019 13:07:41 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id F282130872C6;
+	Thu,  4 Jul 2019 11:07:25 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CE13C83788;
+	Thu,  4 Jul 2019 11:07:24 +0000 (UTC)
+Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 760F81833001;
+	Thu,  4 Jul 2019 11:07:21 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
+	id x64B7JaO007864 for <lvm-devel@listman.util.phx.redhat.com>;
+	Thu, 4 Jul 2019 07:07:19 -0400
+Date: Thu, 4 Jul 2019 07:07:19 -0400
+Message-Id: <201907041107.x64B7JaO007864@lists01.pubmisc.prod.ext.phx2.redhat.com>
+Received: by smtp.corp.redhat.com (Postfix)
+	id 6787E1001DC3; Thu,  4 Jul 2019 11:07:19 +0000 (UTC)
+Delivered-To: lvm-devel@redhat.com
+Received: from mx1.redhat.com (ext-mx20.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.49])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 62FF91001DC0
+	for <lvm-devel@redhat.com>; Thu,  4 Jul 2019 11:07:17 +0000 (UTC)
+Received: from sourceware.org (server1.sourceware.org [209.132.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 33BB3308FEC0
+	for <lvm-devel@redhat.com>; Thu,  4 Jul 2019 11:07:05 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=sourceware.org; h=subject:to
+	:from; q=dns; s=default; b=Sc71Q7IiZLxQnJ1lJ+EDKzypccEhFgjukumiU
+	qR7vFBcgSOqEBXtLS9NNKulP0cmOW90Xr/eudPuyIGnS/yPeZ4EnwiThI/7BgBds
+	WmKrE82xUGD6o6rG7rhP3X/j+kC6Q70Uun7wrVD5dbof1QVObCYQW4G5dha6N2cY
+	EdJz0g=
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=sourceware.org; h=subject
+	:to:from; s=default; bh=HI7A6l3rgbOCCMvAwMHjU04NEDQ=; b=vp9N3gLm
+	3VBq2DLa+TZyMRco0x61PCCkxYQ1z8kLyB3jt4lSVvuYaENYGlUlmZqwPpMbrZ0a
+	V5tfOOg5o3XuaBAte2toIlp4FyBbib54/Mg9tKqb0MGNm1BGi0o10wzlOQ4jXLl1
+	agkm6lbXO4hBN3ZH0mQKpsdhEfXVw4QoF0w=
+Received: (qmail 44545 invoked by uid 89); 4 Jul 2019 11:07:04 -0000
+Authentication-Results: sourceware.org; auth=none
+X-Virus-Checked: by ClamAV 0.100.3 on sourceware.org
+X-Virus-Found: No
+X-Spam-SWARE-Status: No, score=-25.8 required=5.0 tests=ALL_TRUSTED, AWL,
+	BAYES_00, GIT_PATCH_0, GIT_PATCH_1, GIT_PATCH_2, GIT_PATCH_3,
+	MISSING_DATE, MISSING_MID autolearn=ham version=3.3.1 spammy=
+X-Spam-Status: No, score=-25.8 required=5.0 tests=ALL_TRUSTED, AWL, BAYES_00,
+	GIT_PATCH_0, GIT_PATCH_1, GIT_PATCH_2, GIT_PATCH_3, MISSING_DATE,
+	MISSING_MID autolearn=ham version=3.3.1
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on sourceware.org
+X-HELO: sourceware.org
+Received: from localhost (HELO sourceware.org) (127.0.0.1)
+	by sourceware.org (qpsmtpd/0.93/v0.84-503-g423c35a) with ESMTP;
+	Thu, 04 Jul 2019 11:07:03 +0000
+To: lvm-devel@redhat.com
+X-Project: LVM2 upstream repository (moved from fedorahosted in Feb 2017)
+X-Git-Module: lvm2.git
+X-Git-Refname: refs/heads/stable-2.02
+X-Git-Reftype: branch
+X-Git-Oldrev: b13ebfa4c289a5bc6eb4f8ba26126db8e6d78296
+X-Git-Newrev: 1650c104384b81acd5b2e30f507624f98309f2ff
+From: Peter Rajnoha <prajnoha@sourceware.org>
+X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 216
+	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
+	[10.5.110.49]); Thu, 04 Jul 2019 11:07:05 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]);
+	Thu, 04 Jul 2019 11:07:05 +0000 (UTC) for IP:'209.132.180.131'
+	DOMAIN:'server1.sourceware.org' HELO:'sourceware.org'
+	FROM:'prajnoha@sourceware.org' RCPT:''
+X-RedHat-NoId: 209.132.180.131 sent message with No ID
+X-RedHat-Spam-Score: -1.005  (DKIM_SIGNED, DKIM_VALID, DKIM_VALID_AU,
+	MISSING_DATE, MSGID_FROM_MTA_HEADER, RCVD_IN_DNSWL_MED,
+	SPF_HELO_PASS,
+	SPF_PASS) 209.132.180.131 server1.sourceware.org 209.132.180.131
+	server1.sourceware.org <prajnoha@sourceware.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.49
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-loop: lvm-devel@redhat.com
+Subject: [lvm-devel] stable-2.02 - udev: do not overwrite ID_MODEL in
+	69-dm-lvm-metad.rules
+X-BeenThere: lvm-devel@redhat.com
+X-Mailman-Version: 2.1.12
+Precedence: junk
+Reply-To: LVM2 development <lvm-devel@redhat.com>
+List-Id: LVM2 development <lvm-devel.redhat.com>
+List-Unsubscribe: <https://www.redhat.com/mailman/options/lvm-devel>,
+	<mailto:lvm-devel-request@redhat.com?subject=unsubscribe>
+List-Archive: <https://www.redhat.com/archives/lvm-devel>
+List-Post: <mailto:lvm-devel@redhat.com>
+List-Help: <mailto:lvm-devel-request@redhat.com?subject=help>
+List-Subscribe: <https://www.redhat.com/mailman/listinfo/lvm-devel>,
+	<mailto:lvm-devel-request@redhat.com?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: lvm-devel-bounces@redhat.com
+Errors-To: lvm-devel-bounces@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Thu, 04 Jul 2019 11:07:38 +0000 (UTC)
+X-SPAM-LEVEL: Spam detection results:  0
+	DKIM_INVALID              0.1 DKIM or DK signature exists, but is not valid
+	DKIM_SIGNED               0.1 Message has a DKIM or DK signature, not necessarily valid
+	HEADER_FROM_DIFFERENT_DOMAINS  0.001 From and EnvelopeFrom 2nd level mail domains are different
+	MAILING_LIST_MULTI         -1 Multiple indicators imply a widely-seen list manager
+	MSGID_FROM_MTA_HEADER   0.001 Message-Id was added by a relay
+	RCVD_IN_DNSWL_HI           -5 Sender listed at https://www.dnswl.org/, high trust
+	SPF_HELO_PASS          -0.001 SPF: HELO matches SPF record
+	SPF_PASS               -0.001 SPF: sender matches SPF record
+
+Gitweb:        https://sourceware.org/git/?p=lvm2.git;a=commitdiff;h=1650c104384b81acd5b2e30f507624f98309f2ff
+Commit:        1650c104384b81acd5b2e30f507624f98309f2ff
+Parent:        b13ebfa4c289a5bc6eb4f8ba26126db8e6d78296
+Author:        Peter Rajnoha <prajnoha@redhat.com>
+AuthorDate:    Thu Jul 4 12:57:55 2019 +0200
+Committer:     Peter Rajnoha <prajnoha@redhat.com>
+CommitterDate: Thu Jul 4 13:06:44 2019 +0200
+
+udev: do not overwrite ID_MODEL in 69-dm-lvm-metad.rules
+
+We've been assigning this in 69-dm-lvm-metad.rules:
+
+  ENV{ID_MODEL}="LVM PV $env{ID_FS_UUID_ENC} on /dev/$name"
+
+This was for the description to appear for each systemd device
+unit representing this device, for example:
+
+  $systemctl -a | grep "LVM PV"
+  dev-block-252:2.device                                                                                         loaded    active   plugged   LVM PV JhxC7B-YTgk-3jIU-5GVo-c4gV-W8t3-UUz06p on /dev/vda2 2
+  dev-disk-by\x2did-lvm\x2dpv\x2duuid\x2dJhxC7B\x2dYTgk\x2d3jIU\x2d5GVo\x2dc4gV\x2dW8t3\x2dUUz06p.device         loaded    active   plugged   LVM PV JhxC7B-YTgk-3jIU-5GVo-c4gV-W8t3-UUz06p on /dev/vda2 2
+  ...
+
+However, there could be an actual ID_MODEL that people are interested in
+more than the fact that this is an LVM PV and so we shouldn't overwrite
+the value.
+
+Also, we already have a symlink /dev/disk/by-id/lvm-pv-uuid-<PV_UUID>
+created which is then reflected as device unit (all device's symlinks
+have systemd device unit representation) so we can still reach this
+information in systemd unit listings even without setting the ID_MODEL.
+
+Reported here: https://github.com/lvmteam/lvm2/issues/21
+---
+ udev/69-dm-lvm-metad.rules.in |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+diff --git a/udev/69-dm-lvm-metad.rules.in b/udev/69-dm-lvm-metad.rules.in
+index 2ff8ddc..d510064 100644
+--- a/udev/69-dm-lvm-metad.rules.in
++++ b/udev/69-dm-lvm-metad.rules.in
+@@ -110,7 +110,6 @@ LABEL="systemd_background"
+ #  other |    X     |      X      |       X        |                   |   X
+ ACTION!="remove", ENV{LVM_PV_GONE}=="1", RUN+="(BINDIR)/systemd-run (LVM_EXEC)/lvm pvscan --cache $major:$minor", GOTO="lvm_end"
+ ENV{SYSTEMD_ALIAS}="/dev/block/$major:$minor"
+-ENV{ID_MODEL}="LVM PV $env{ID_FS_UUID_ENC} on /dev/$name"
+ ENV{SYSTEMD_WANTS}+="lvm2-pvscan@$major:$minor.service"
+ GOTO="lvm_end"
+ 
+
+--
+lvm-devel mailing list
+lvm-devel@redhat.com
+https://www.redhat.com/mailman/listinfo/lvm-devel
+
