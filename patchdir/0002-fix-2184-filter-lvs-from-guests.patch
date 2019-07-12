@@ -1,0 +1,27 @@
+From a91e2f0d45b3f11d4cf25f769e5daeb0f8a83fb7 Mon Sep 17 00:00:00 2001
+From: Oguz Bektas <o.bektas@proxmox.com>
+Date: Fri, 12 Jul 2019 13:00:15 +0200
+Subject: [PATCH] fix #2184: filter lvs from guests
+
+Signed-off-by: Oguz Bektas <o.bektas@proxmox.com>
+---
+ conf/example.conf.in | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/conf/example.conf.in b/conf/example.conf.in
+index 009a442ed..78073569a 100644
+--- a/conf/example.conf.in
++++ b/conf/example.conf.in
+@@ -125,7 +125,8 @@ devices {
+ 	# Run vgscan after changing the filter to regenerate the cache.
+ 	# 
+ 	# Do not scan ZFS zvols (to avoid problems on ZFS zvols snapshots)
+-	global_filter = [ "r|/dev/zd.*|", "r|/dev/mapper/pve-.*|" ]
++	# Also do not scan LVM disks from guests
++	global_filter = [ "r|/dev/zd.*|", "r|/dev/mapper/pve-.*|" "r|/dev/mapper/.*-vm--[0-9]+--disk--[0-9]+|"]
+ 
+ 	# Example
+ 	# Accept every block device:
+-- 
+2.20.1
+
