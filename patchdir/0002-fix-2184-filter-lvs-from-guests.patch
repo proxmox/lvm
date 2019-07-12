@@ -17,7 +17,7 @@ index 009a442ed..78073569a 100644
  	# 
  	# Do not scan ZFS zvols (to avoid problems on ZFS zvols snapshots)
 -	global_filter = [ "r|/dev/zd.*|", "r|/dev/mapper/pve-.*|" ]
-+	# Also do not scan LVM disks from guests on LVs not named 'pve'
++	# Also do not scan LVM disks from guests on both VGs named & not named 'pve'
 +	global_filter = [ "r|/dev/zd.*|", "r|/dev/mapper/pve-.*|" "r|/dev/mapper/.*-vm--[0-9]+--disk--[0-9]+|"]
  
  	# Example
