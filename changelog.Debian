@@ -1,3 +1,10 @@
+lvm2 (2.03.02-pve3) pve; urgency=medium
+
+  * fix #2184: filter LVs from virtual guests on any volume group, not only the
+    default 'pve' one
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 15 Jul 2019 15:11:18 +0200
+
 lvm2 (2.03.02-pve2) pve; urgency=medium
 
   * udev: do not overwrite ID_MODEL in 69-dm-lvm-metad.rules
