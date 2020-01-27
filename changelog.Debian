@@ -1,3 +1,9 @@
+lvm2 (2.03.02-pve4) pve; urgency=medium
+
+  * fix #2564: do not hardcode paths in blkdeactivate tool
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 27 Jan 2020 07:48:59 +0100
+
 lvm2 (2.03.02-pve3) pve; urgency=medium
 
   * fix #2184: filter LVs from virtual guests on any volume group, not only the
