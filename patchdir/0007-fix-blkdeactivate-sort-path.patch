@@ -1,0 +1,55 @@
+ Fix hard coded paths by reusing $PATH environment variable with a fallback
+ default assignment if it's not set.
+Index: LVM2.2.03.02/scripts/blkdeactivate.sh.in
+===================================================================
+--- LVM2.2.03.02.orig/scripts/blkdeactivate.sh.in
++++ LVM2.2.03.02/scripts/blkdeactivate.sh.in
+@@ -29,25 +29,26 @@
+ #set -x
+ shopt -s dotglob nullglob
+ 
++PATH="${PATH:-/usr/sbin:/usr/bin:/sbin:/bin}"
++
+ TOOL=blkdeactivate
+ 
+ DEV_DIR="/dev"
+ SYS_BLK_DIR="/sys/block"
+ 
+-MDADM="/sbin/mdadm"
+-MOUNTPOINT="/bin/mountpoint"
+-MPATHD="/sbin/multipathd"
+-UMOUNT="/bin/umount"
+-
+-sbindir="@SBINDIR@"
+-DMSETUP="$sbindir/dmsetup"
+-LVM="$sbindir/lvm"
++MDADM="mdadm"
++MOUNTPOINT="mountpoint"
++MPATHD="multipathd"
++UMOUNT="umount"
++
++DMSETUP="dmsetup"
++LVM="lvm"
+ 
+ if "$UMOUNT" --help | grep -- "--all-targets" >"$DEV_DIR/null"; then
+ 	UMOUNT_OPTS="--all-targets "
+ else
+ 	UMOUNT_OPTS=""
+-	FINDMNT="/bin/findmnt -r --noheadings -u -o TARGET"
++	FINDMNT="findmnt -r --noheadings -u -o TARGET"
+ 	FINDMNT_READ="read -r mnt"
+ fi
+ DMSETUP_OPTS=""
+@@ -55,10 +56,10 @@ LVM_OPTS=""
+ MDADM_OPTS=""
+ MPATHD_OPTS=""
+ 
+-LSBLK="/bin/lsblk -r --noheadings -o TYPE,KNAME,NAME,MOUNTPOINT"
++LSBLK="lsblk -r --noheadings -o TYPE,KNAME,NAME,MOUNTPOINT"
+ LSBLK_VARS="local devtype local kname local name local mnt"
+ LSBLK_READ="read -r devtype kname name mnt"
+-SORT_MNT="/bin/sort -r -u -k 4"
++SORT_MNT="sort -r -u -k 4"
+ 
+ # Do not show tool errors by default (only done/skipping summary
+ # message provided by this script) and no verbose mode by default.

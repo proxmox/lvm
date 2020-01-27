@@ -3,3 +3,4 @@
 0003-enable-issue_discards-by-default.patch
 0006-disable-init-scripts.patch
 udev-do-not-overwrite-ID_MODEL-in-69-dm-lvm-metad.rules.patch
+0007-fix-blkdeactivate-sort-path.patch
